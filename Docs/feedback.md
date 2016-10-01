@@ -19,17 +19,18 @@ This table contains the actual Feedback responses.
 
 | Attribute    | Type     |  Description |
 | :------------- | :------------- | :------ |
-|   feedbackID    |  Array   |  An array of response objects where response object contains the response of that particular feedback.
+| feedbackID | String | Feedback ID |
+|   responses    |  Array   |  An array of response objects where response object contains the response of that particular feedback.
 
 ### Template Table
 
-This table stores the templates of each feedback and assigns a unique feedbackID to them.
+This table stores the templates of each feedback and assigns a unique feedbackID to them. It also stores the userID so keeping information about who created this form.
 
  **Template**
 
-|  Attribute    | Type     |  Description |
-| :------------- | :------------- | :-------- |
+| Attribute    | Type     |  Description |
+| :------------- | :------------- | :------ |
 | feedbackID       | String     |  Unique Identity of each feedback template. |
 | userID  | String | UserID of the author of the feedback template. |
-| questionID | Array | It is array of objects where each object is a question alongwith their possible responses.
-| official | Enumeration | An enumeration depicting whether the feedback template is official or not.
+| questionID | Array | It is array of objects where each object is a question alongwith their possible responses.|
+| isOfficial | Enumeration | An enumeration depicting whether the feedback template is official or not.|
