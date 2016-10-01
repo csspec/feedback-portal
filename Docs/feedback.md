@@ -27,9 +27,9 @@ This table stores the templates of each feedback and assigns a unique feedbackID
 
  **Template**
 
- |  Attribute    | Type     |  Description |
- | :------------- | :------------- | :-------- |
- | feedbackID       | String     |  Unique Identity of each feedback template. |
- | userID  | String | UserID of the author of the feedback template. |
- | questionID | Array | It is array of objects where each object is a question alongwith their possible responses.
- | official | Enumeration | An enumeration depicting whether the feedback template is official or not.
+|  Attribute    | Type     |  Description |
+| :------------- | :------------- | :-------- |
+| feedbackID       | String     |  Unique Identity of each feedback template. |
+| userID  | String | UserID of the author of the feedback template. |
+| questionID | Array | It is array of objects where each object is a question alongwith their possible responses.
+| official | Enumeration | An enumeration depicting whether the feedback template is official or not.
