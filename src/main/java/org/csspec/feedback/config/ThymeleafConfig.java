@@ -1,5 +1,7 @@
 package org.csspec.feedback.config;
 
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -64,6 +66,13 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("Messages");
         return messageSource;
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        final CacheManager cacheManager;
+        cacheManager = new NoOpCacheManager();
+        return cacheManager;
     }
 
 }
