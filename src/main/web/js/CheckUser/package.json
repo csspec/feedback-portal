@@ -1,0 +1,6 @@
+{
+  "name": "CheckUser",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CheckUser.jsx"
+}
