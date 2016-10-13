@@ -5,6 +5,16 @@ import QuestionList from './QuestionList';
 import Footer from './Footer';
 import '../sass/common.sass';
 
+const instructor = {
+	name: "Alka Jindal",
+	department: "Computer Science"
+}
+
+const course = {
+	id: "CSN 301",
+	name: "Theory of Computation"
+}
+
 const questionList = [
 	{
 		id: 1,
@@ -48,7 +58,7 @@ class App extends React.Component {
     return (
     	<div>
     		<Header />
-    		<QuestionList questionList={questionList} />
+    		<QuestionList instructor={instructor} course={course} questionList={questionList} />
             <Footer/>
       	</div>
     )
