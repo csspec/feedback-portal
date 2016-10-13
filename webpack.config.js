@@ -1,9 +1,7 @@
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var NpmInstallPlugin = require('npm-install-webpack-plugin');
 var autoprefixer = require('autoprefixer');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var common = {
   cache: true,
@@ -65,11 +63,6 @@ module.exports = merge(common, {
     historyApiFallback: true
   },
   output: {
-    publicPath: 'http://localhost:8090/assets'
-  },
-  plugins: [
-    new NpmInstallPlugin({
-      save: true // --save
-    })
-  ]
+    publicPath: 'http://localhost:8090/'
+  }
 });
