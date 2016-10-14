@@ -65,7 +65,7 @@ export default class QuestionField extends React.Component {
 
     render() {
         return (
-            <div className="well" style={{backgroundColor: 'white', borderRadius: '4px', boxShadow: 'none'}}>
+            <div className="well" style={{backgroundColor: 'white', borderRadius: '4px', boxShadow: 'none', borderColor: '#eee'}}>
                 <small style={{color: 'gray', letterSpacing: '0.1em', fontWeight: '600'}}>{"QUESTION " + this.props.count}</small>
                 <h3 style={{fontWeight: 'normal'}}>{this.props.question.statement}</h3>
                 {this.renderQuestion(this.props.question)}
@@ -73,3 +73,10 @@ export default class QuestionField extends React.Component {
         )
     }
 }
+
+QuestionField.propTypes = {
+    question: React.PropTypes.Object,
+    label: React.PropTypes.String,
+    onChange: React.PropTypes.func.isRequired,
+}
+

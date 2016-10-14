@@ -8,6 +8,7 @@ var common = {
   debug: true,
   entry: {
     index: './src/main/web/js/index.jsx',
+    course: './src/main/web/js/course.jsx'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -48,7 +49,8 @@ var common = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
-    })
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   postcss: function() {
     return [autoprefixer({
