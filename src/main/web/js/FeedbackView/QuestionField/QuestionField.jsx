@@ -75,8 +75,8 @@ export default class QuestionField extends React.Component {
 }
 
 QuestionField.propTypes = {
-    question: React.PropTypes.Object,
-    label: React.PropTypes.String,
+    question: React.PropTypes.object,
+    label: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
 }
 

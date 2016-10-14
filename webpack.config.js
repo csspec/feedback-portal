@@ -8,18 +8,20 @@ var common = {
   debug: true,
   entry: {
     index: './src/main/web/js/index.jsx',
-    course: './src/main/web/js/course.jsx'
+    course: './src/main/web/js/course.jsx',
+    home: './src/main/web/js/home.jsx'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   output: {
     path: './src/main/webapp/js/',
-    filename: '[name].js',
+    filename: '[name].js'
   },
   devServer: {
     inline: true
   },
+  devtool: 'source-map',
   module: {
     loaders: [{
       test: /\.jsx?/,

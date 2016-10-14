@@ -13,7 +13,7 @@ const courseList = [
 		},
 		feedback: {
 			filled: false,
-			link: "/feedback/"
+			link: "/form/"
 		}
 	},
 	{
@@ -27,7 +27,7 @@ const courseList = [
 		},
 		feedback: {
 			filled: false,
-			link: "/feedback/"
+			link: "/form/"
 		}
 	},
 	{
@@ -41,7 +41,7 @@ const courseList = [
 		},
 		feedback: {
 			filled: true,
-			link: "/feedback/"
+			link: "/form/"
 		}
 	},
 	{
@@ -55,7 +55,7 @@ const courseList = [
 		},
 		feedback: {
 			filled: false,
-			link: "/feedback/"
+			link: "/form/"
 		}
 	}
 ]
