@@ -1,6 +1,0 @@
-{
-	"name": "Component",
-	"version": "0.0.0",
-	"private": true,
-	"main": "./Component.jsx"
-}

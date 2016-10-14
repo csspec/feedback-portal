@@ -40,7 +40,7 @@ const courseList = [
 			name: "Sandeep Harit"
 		},
 		feedback: {
-			filled: false,
+			filled: true,
 			link: "/feedback/"
 		}
 	},

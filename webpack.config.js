@@ -50,7 +50,12 @@ var common = {
       $: "jquery",
       jQuery: "jquery"
     }),
-    new webpack.optimize.UglifyJsPlugin()
+    // new webpack.optimize.UglifyJsPlugin(),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     'NODE_ENV': JSON.stringify('production')
+    //   }
+    // })
   ],
   postcss: function() {
     return [autoprefixer({
@@ -59,12 +64,4 @@ var common = {
   }
 };
 
-module.exports = merge(common, {
-  devtool: 'eval-source-map',
-  devServer: {
-    historyApiFallback: true
-  },
-  output: {
-    publicPath: 'http://localhost:8090/'
-  }
-});
+module.exports = common;

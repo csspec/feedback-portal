@@ -20,7 +20,7 @@ export default class CourseField extends React.Component {
 
 		return (
 			<a href={ (feedback.filled ? "#" : feedback.link) }
-			   className={ "list-group-item " + (feedback.filled ? "disabled" : "") }>
+			   className={ "list-group-item " + (feedback.filled ? "disabled list-group-item-success" : "") }>
 					<strong>{course_id}</strong>: {course_name}
 			</a>
 		)
