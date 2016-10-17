@@ -1,8 +1,13 @@
+
 node_modules/
 index.js/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
 
 ### STS ###
 .classpath
@@ -24,4 +29,5 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
 
