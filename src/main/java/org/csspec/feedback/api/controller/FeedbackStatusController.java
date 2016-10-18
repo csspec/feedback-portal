@@ -11,7 +11,7 @@ public class FeedbackStatusController {
     private FeedbackStatusRepository feedbackStatusRepository;
 
     /* Get org.csspec.feedback status of given org.csspec.feedback id for a given user */
-    @RequestMapping(value = "/org/csspec/feedback/{feedbackId}/users/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/feedback/{feedbackId}/users/{userId}", method = RequestMethod.GET)
     public void getFeedbackStatus(@PathVariable String feedbackId, @PathVariable String userId) {
         System.out.println("Reached into this");
         boolean x = feedbackStatusRepository.exists("{'feedbackId':"+feedbackId+ ",'userId': "+userId+"}");
@@ -19,7 +19,7 @@ public class FeedbackStatusController {
     }
 
     /* Store org.csspec.feedback status of a given userid for a given feedbackId */
-    @RequestMapping(value = "/org/csspec/feedback/users/submit", method = RequestMethod.POST)
+    @RequestMapping(value = "/feedback/users/submit", method = RequestMethod.POST)
     public void storeFeedbackStatus(@RequestBody FeedbackStatus feedbackStatus) {
         feedbackStatusRepository.save(feedbackStatus);
         System.out.println("Recorded org.csspec.feedback status");

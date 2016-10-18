@@ -19,9 +19,8 @@ public class AcceptedResponsesController {
     @Autowired
     private AcceptedResponsesRepository acceptedResponsesRepository;
 
-    @RequestMapping(value = "/org/csspec/feedback/response/submit", method = RequestMethod.POST)
+    @RequestMapping(value = "/feedback/response/submit", method = RequestMethod.POST)
     public void storeResponses(@RequestBody AcceptedResponses acceptedResponses) {
-       // System.out.println("vfvdfbvdf");
         List<AcceptedSingleResponse> acceptedSingleResponses = acceptedResponses.getResponses();
         for(int i = 0 ;i<acceptedSingleResponses.size();i++) {
             String questionId = acceptedSingleResponses.get(i).getQuestionId();
