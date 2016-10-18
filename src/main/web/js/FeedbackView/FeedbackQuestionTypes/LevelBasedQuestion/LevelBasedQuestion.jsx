@@ -18,10 +18,10 @@ export default class LevelBasedQuestion extends React.Component {
 		const { rating } = this.state;
 		return (
 			<StarRatingComponent 
-                    name="rate1" 
+                    name="rate1"
+                    starColor="#428bca"
                     starCount={this.props.level}
                     value={rating}
-                    renderStarIcon={() => <i className="material-icons">star_rate</i>}
                     onStarClick={this.onStarClick.bind(this)}
             />
 		)

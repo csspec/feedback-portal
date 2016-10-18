@@ -9,4 +9,14 @@ public class HomeController {
     public String home() {
         return "home";
     }
+
+    @RequestMapping("/form")
+    public String feedback() {
+        return "index";
+    }
+
+    @RequestMapping("/list")
+    public String course_list() {
+        return "course_list";
+    }
 }
