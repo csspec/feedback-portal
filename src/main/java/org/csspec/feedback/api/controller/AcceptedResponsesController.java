@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Jatinder Dhawan on 10/16/2016.
@@ -20,14 +22,18 @@ public class AcceptedResponsesController {
     private AcceptedResponsesRepository acceptedResponsesRepository;
 
     @RequestMapping(value = "/feedback/response/submit", method = RequestMethod.POST)
-    public void storeResponses(@RequestBody AcceptedResponses acceptedResponses) {
-        List<AcceptedSingleResponse> acceptedSingleResponses = acceptedResponses.getResponses();
-        for(int i = 0 ;i<acceptedSingleResponses.size();i++) {
-            String questionId = acceptedSingleResponses.get(i).getQuestionId();
-            int response = acceptedSingleResponses.get(i).getResponse();
-            acceptedResponsesRepository.updateResponseTable(acceptedResponses.getFeedbackId(),questionId,response);
+    public void storeResponses(@RequestBody Map<String, Object> acceptedResponses) {
+        Set<String> keys = acceptedResponses.keySet();
+        for (String key : keys) {
+            System.out.println(key + ": " + acceptedResponses.get(key));
         }
-        System.out.println(acceptedResponses);
+//        List<AcceptedSingleResponse> acceptedSingleResponses = acceptedResponses.getResponses();
+//        for(int i = 0 ;i<acceptedSingleResponses.size();i++) {
+//            String questionId = acceptedSingleResponses.get(i).getQuestionId();
+//            int response = acceptedSingleResponses.get(i).getResponse();
+//            acceptedResponsesRepository.updateResponseTable(acceptedResponses.getFeedbackId(),questionId,response);
+//        }
+//        System.out.println(acceptedResponses);
     }
 
 }
