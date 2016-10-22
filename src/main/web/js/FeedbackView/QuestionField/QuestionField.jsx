@@ -27,7 +27,7 @@ export default class QuestionField extends React.Component {
 
     registerResponse(response) {
         this.props.onChange({
-            questionId: this.props.id,
+            questionId: this.props.question.questionId,
             questionNumber: this.props.count,
             response: response
         })
@@ -62,7 +62,7 @@ export default class QuestionField extends React.Component {
 
             case 'multiple':
                 return (
-                    <MultipleChoiceBasedQuestion options={question.prop.options}
+                    <MultipleChoiceBasedQuestion options={question.options}
                                                  onChange={this.handleChoiceClick.bind(this)}
                     /> 
                 )
@@ -81,7 +81,7 @@ export default class QuestionField extends React.Component {
         const color = this.getColor();
         return (
             <div className="well" style={{backgroundColor: 'white', borderRadius: '4px', boxShadow: 'none', borderColor: color}}>
-                <small style={{color: 'gray', letterSpacing: '0.1em', fontWeight: '600'}}>{"QUESTION " + this.props.count}</small>
+                <small style={{color: 'lightgray', letterSpacing: '0.1em', fontWeight: '600'}}>{"QUESTION " + this.props.count}</small>
                 <h3 style={{fontWeight: 'normal'}}>{this.props.question.statement}</h3>
                 {this.renderQuestion(this.props.question)}
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import QuestionField from '../QuestionField';
 import { makeAjaxRequest } from '../../Ajax';
 import Loading from '../../Loading';
+import config from '../../config';
 
 class QuestionListHeading extends React.Component {
     render() {
@@ -29,8 +30,9 @@ export default class QuestionList extends React.Component {
 
         this.state = {
             responses: {},
-            questionList: props.questionList.map(question => Object.assign({}, question, { validate: true, filled: false })),
-            submitting: false
+            questionList: [],
+            submitting: false,
+            loading: true
         }
     }
 
@@ -44,7 +46,7 @@ export default class QuestionList extends React.Component {
                 return Object.assign({}, question, { filled: true, validate: true });
             return question;
         })
-        console.log(questions);
+        console.log(response);
         this.setState({ responses: responses, questionList: questions });
     }
 
@@ -70,16 +72,26 @@ export default class QuestionList extends React.Component {
         if (!this.validateResponses())
             return false;
 
-        const data = Object.assign({}, this.state.responses, {
-            instructor_id: this.props.instructor.id,
-            course_id: this.props.course.id
+        let responses = [];
+        for (var property in this.state.responses) {
+            responses[property - 1] = this.state.responses[property];
+        }
+
+        const data = Object.assign({}, { responses: responses}, {
+            teacherId: this.props.instructor.id,
+            courseId: this.props.course.id,
+            userId: config.dummy.userId
         });
 
         makeAjaxRequest({
-            url: '/feedback/response/submit',
-            method: 'POST',
-            data: data,
-            success: message => console.log("Done!", message),
+            url: config.feedbackApi.submitLink,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+
+            // ugly hack to go back to the course list
+            success: message => window.history.back(),
             error: message => console.log(message)
         });
 
@@ -87,8 +99,37 @@ export default class QuestionList extends React.Component {
         this.setState({submitting: true});
     }
 
+    fetchTemplate() {
+        makeAjaxRequest({
+            url: config.feedbackApi.templateLink,
+            type: 'GET',
+            success: template => {
+                console.log(template);
+                this.setState({
+                    questionList: template.map(question => {
+                        question = Object.assign({}, question, { validate: true, filled: false })
+                        console.log(question);
+                        return question;
+                    }),
+                    loading: false 
+                });
+            },
+            error: message => {
+                console.log(message);
+                this.setState({
+                    loading: false
+                })
+            }
+        });
+    }
+
+    componentDidMount() {
+        this.fetchTemplate();
+    }
+
     render() {
-        if (this.state.submitting) {
+        console.log("rendering QuestionList with instructor: " + JSON.stringify(this.props.instructor) + ", " + JSON.stringify(this.props.course));
+        if (this.state.submitting || this.state.loading) {
             return (
                 <Loading />
             )

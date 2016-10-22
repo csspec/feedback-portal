@@ -12,14 +12,7 @@ class ConnectionError extends Error {
 }
 
 function makeAjaxRequest(options) {
-	$.ajax({
-		url: options.url,
-		method: typeof options.method !== 'undefined' ? options.method : 'GET',
-		error: typeof options.error !== 'undefined' ? options.error : e => { throw new ConnectionError(e); },
-		data: typeof options.data !== 'undefined' ? options.data : '',
-		success: typeof options.success !== 'undefined' ? options.success : () => {},
-		// that's all for now
-	})
+	$.ajax(options);
 }
 
 export { makeAjaxRequest };
