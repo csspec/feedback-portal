@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 @RestController
 @RequestMapping("/check_token")
 public class CheckTokenController {
 
     private static final String COOKIE_NAME = "feedback_csspec_org";
+    private static final String SESSION_COOKIE_NAME = "CSS_FEEDBACK_SESSION_USER_ID";
 
     public static boolean checkCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -44,27 +42,28 @@ public class CheckTokenController {
             System.out.println(e);
             return false;
         }
-        if (checkValidity(hash)) {
+        if (checkValidity(hash) != null) {
             return true;
         }
         return false;
     }
 
-    public static boolean checkValidity(String hash) {
+    public static Map<String, String> checkValidity(String hash) {
         // TODO: make a request to auth server to check the validity of the token
         try {
-            Thread.sleep(20000);
+            Thread.sleep(200);
         } catch (Exception e) {
             System.out.println(e);
         }
-        return true;
+        return Collections.singletonMap("user_id", "2");
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> checkToken(Map<String, String> request) {
         String hash = request.get("hash");
         String redirect_uri = "/error?error_type=invalid_token&token=" + hash;
-        if (checkValidity(hash)) {
+        Map<String, String> map = checkValidity(hash);
+        if (map != null) {
             redirect_uri = "/list";
             HttpHeaders header = new HttpHeaders();
             Date expdate= new Date();
@@ -73,6 +72,7 @@ public class CheckTokenController {
             df.setTimeZone(TimeZone.getTimeZone("GMT"));
             String cookieExpire = "expires=" + df.format(expdate);
             header.set("Set-Cookie", COOKIE_NAME + "=" + Jwt.getJwt(hash) + "; Expires=" + cookieExpire);
+            header.set("Set-Cookie", SESSION_COOKIE_NAME + "=" + map.get("user_id"));
             return new ResponseEntity<Object>(Collections.singletonMap("redirect_uri", redirect_uri),
                                               header,
                                               HttpStatus.OK);
