@@ -9,7 +9,8 @@ var common = {
   entry: {
     index: './src/main/web/js/index.jsx',
     course: './src/main/web/js/course.jsx',
-    home: './src/main/web/js/home.jsx'
+    home: './src/main/web/js/home.jsx',
+    results: './src/main/web/js/results.jsx'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
