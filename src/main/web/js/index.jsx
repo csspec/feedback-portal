@@ -1,68 +1,79 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from './Header';
-import QuestionList from './FeedbackView/QuestionList';
+import CourseListView from './CourseListView';
 import Footer from './Footer';
+import QuestionList from './FeedbackView/QuestionList'
 import '../sass/common.sass';
 
-const instructor = {
-	name: "Alka Jindal",
-	department: "Computer Science"
+
+const VIEW_STATE = {
+	FORM: 1,
+	LIST: 2
 }
 
-const course = {
-	id: "CSN 301",
-	name: "Theory of Computation"
+const urls = {
+	form: '/form',
+	list: '/list'
 }
 
-const questionList = [
-	{
-		id: 1,
-		type: 'level',
-		statement: 'Rate the instructor of your course',
-		prop: {
-			level: 5
-		}
-	},
-	{
-		id: 2,
-		type: 'text',
-		statement: 'Tell me about yourself.',
-		prop: {}
-	},
-	{
-		id: 3,
-		type: 'multiple',
-		statement: 'How was the course?',
-		prop: {
-			options: [
-				{
-					label: 'A',
-					value: 'Easy'
-				},
-				{
-					label: 'B',
-					value: 'Medium'
-				},
-				{
-					label: 'C',
-					value: 'Difficult'
-				}
-			]
-		}
+function ViewManager(props) {
+	if (props.view === VIEW_STATE.FORM) {
+		return (
+			<QuestionList {...props} />
+		)
 	}
-]
+	return (
+		<CourseListView />
+	)
+}
+
 
 class App extends React.Component {
-  render() {
-    return (
-    	<div>
-    		<Header />
-    		<QuestionList instructor={instructor} course={course} questionList={questionList} />
-            <Footer/>
-      	</div>
-    )
-  }
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			view: VIEW_STATE.LIST,
+			url: urls.list,
+			propsPassed: {}
+		}
+
+		window.history.pushState(this.state, null, this.state.url);
+		// bind the history change event listener
+		window.addEventListener('popstate', this.handlePopStateEvent.bind(this));
+		window.addEventListener('statechange', this.handleStateChange.bind(this));
+	}
+
+	toggleState(props) {
+		this.setState({
+			view: this.state.view === VIEW_STATE.FORM ? VIEW_STATE.LIST : VIEW_STATE.FORM,
+			url: this.state.url === urls.form ? urls.list : urls.form,
+			propsPassed: props
+		})
+	}
+
+	handleStateChange(event) {
+		console.log("Handling event: 'statechange', event:", event);
+		console.log("Current state: ", this.state);
+		window.history.pushState(this.state, null, this.state.url === urls.form ? urls.list : urls.form);
+		this.toggleState(event.detail);
+	}
+
+	handlePopStateEvent(event) {
+		console.log("Handling event: 'popstate', event:", event);
+		this.setState(event.state);
+	}
+
+  	render() {
+    	return (
+    		<div>
+    			<Header />
+				<ViewManager view={this.state.view} {...this.state.propsPassed} />
+            	<Footer/>
+      		</div>
+    	)
+  	}
 }
 
 ReactDOM.render(<App />, document.getElementById('react-mount-point'));

@@ -16,17 +16,16 @@ public class FeedbackTemplateController {
     @Autowired
     private FeedbackTemplateRepository feedbackTemplateRepository;
 
-    /* Make a new org.csspec.feedback form */
-    @RequestMapping(value = "/org/csspec/feedback/new", method = RequestMethod.POST)
+    /* Make a new feedback form */
+    @RequestMapping(value = "/feedback/new", method = RequestMethod.POST)
     public void storeFeedbackTemplate(@RequestBody FeedbackTemplate feedbackTemplate) {
         feedbackTemplateRepository.save(feedbackTemplate);
         System.out.println("Made a new feedbackTemplate");
     }
 
-    /* Get questions of a given org.csspec.feedback id */
-    @RequestMapping(value = "/org/csspec/feedback/{feedbackId}", method = RequestMethod.GET)
+    /* Get questions of a given feedback id */
+    @RequestMapping(value = "/feedback/{feedbackId}", method = RequestMethod.GET)
     public List<Question> getFeedbackQuestions(@PathVariable String feedbackId) {
-        System.out.println("Print this");
         FeedbackTemplate temp = feedbackTemplateRepository.getFeedbackTemplateByFeedbackId(feedbackId);
         return temp.getQuestionList();
     }

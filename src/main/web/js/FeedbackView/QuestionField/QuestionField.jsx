@@ -3,6 +3,12 @@ import TextBasedQuestion from '../FeedbackQuestionTypes/TextBasedQuestion';
 import LevelBasedQuestion from '../FeedbackQuestionTypes/LevelBasedQuestion';
 import MultipleChoiceBasedQuestion from '../FeedbackQuestionTypes/MultipleChoiceBasedQuestion';
 
+const colors = {
+    red: 'red',
+    green: 'green',
+    default: '#eee'
+}
+
 // required props
 //      question:
 //          statement - question statement
@@ -21,7 +27,7 @@ export default class QuestionField extends React.Component {
 
     registerResponse(response) {
         this.props.onChange({
-            questionId: this.props.id,
+            questionId: this.props.question.questionId,
             questionNumber: this.props.count,
             response: response
         })
@@ -56,17 +62,26 @@ export default class QuestionField extends React.Component {
 
             case 'multiple':
                 return (
-                    <MultipleChoiceBasedQuestion options={question.prop.options}
+                    <MultipleChoiceBasedQuestion options={question.options}
                                                  onChange={this.handleChoiceClick.bind(this)}
                     /> 
                 )
         }
     }
 
+    getColor() {
+        if (this.props.question.filled && this.props.question.validate)
+            return colors.green;
+        if (!this.props.question.validate)
+            return colors.red;
+        return colors.default;
+    }
+
     render() {
+        const color = this.getColor();
         return (
-            <div className="well" style={{backgroundColor: 'white', borderRadius: '4px', boxShadow: 'none', borderColor: '#eee'}}>
-                <small style={{color: 'gray', letterSpacing: '0.1em', fontWeight: '600'}}>{"QUESTION " + this.props.count}</small>
+            <div className="well" style={{backgroundColor: 'white', borderRadius: '4px', boxShadow: 'none', borderColor: color}}>
+                <small style={{color: 'lightgray', letterSpacing: '0.1em', fontWeight: '600'}}>{"QUESTION " + this.props.count}</small>
                 <h3 style={{fontWeight: 'normal'}}>{this.props.question.statement}</h3>
                 {this.renderQuestion(this.props.question)}
             </div>
