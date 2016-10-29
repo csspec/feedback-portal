@@ -9,14 +9,14 @@ const config = {
 	feedbackApi: {
 		submitLink: basePath + ':8090/feedback/response/submit',
 		resultsApi: basePath + ':8090/feedback/results',
-		templateLink: basePath + ':8090/feedback/template',
+		templateLink: basePath + ':8090/feedback/template/1',
 		statusLink: basePath + ':8090/feedback/status',
 	},
 
 	identityApi: {
 		userLink: basePath + ':8080/identity/users',
 		studentLink: basePath + ':8080/identity/users/students',
-		teachers: basePath + ':8080/identity/users/teachers'
+		teachers: basePath + ':8080/identity/users/faculty'
 	},
 
 	academicApi: {

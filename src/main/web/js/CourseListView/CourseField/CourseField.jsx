@@ -4,6 +4,7 @@ import QuestionList from '../../FeedbackView/QuestionList';
 import { makeAjaxRequest } from '../../Ajax';
 import config from '../../config';
 import Loading from '../../Loading';
+import { readCookie } from '../../Utils/Cookie';
 
 // expected props:
 //    course
@@ -37,7 +38,7 @@ export default class CourseField extends React.Component {
 
 	componentDidMount() {
 		makeAjaxRequest({
-			url: config.feedbackApi.statusLink + '/' + this.props.course.id + '/' + config.dummy.userId,
+			url: config.feedbackApi.statusLink + '/' + this.props.course.id + '/' + readCookie('CSS_FEEDBACK_SESSION_USER_ID'),
 			success: response => {
 				if (response.status) {
 					this.setState({ busy: false, filled: true })

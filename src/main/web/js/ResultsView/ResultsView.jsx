@@ -30,15 +30,9 @@ export default class ResultsView extends React.Component {
 
     render() {
         return (
-            <Router history={hashHistory}>
-                <Route path="/" component={MainResultsPage} />
-                <Route path="/teachers" component={TeacherResultsView} />
-                <Route path="/teachers/:teacher_id" component={SingleTeacherResultsView} />
-                <Route path="/courses" component={Default} />
-                <Route path="/courses/:course_id" component={Default} />
-            </Router>
+            <TeacherResultsView />
         )
     }
 }
 
-ReactDOM.render(<ResultsView />, document.getElementById('results-view'));
+ReactDOM.render(<ResultsView />, document.getElementById('react-mount-point'));

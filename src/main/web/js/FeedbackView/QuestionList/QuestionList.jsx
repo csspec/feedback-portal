@@ -106,7 +106,7 @@ export default class QuestionList extends React.Component {
             success: template => {
                 console.log(template);
                 this.setState({
-                    questionList: template.map(question => {
+                    questionList: template.questionList.map(question => {
                         question = Object.assign({}, question, { validate: true, filled: false })
                         console.log(question);
                         return question;
