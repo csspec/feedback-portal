@@ -1,0 +1,25 @@
+.fadeIn-enter
+	opacity: 0.01
+	transform: translateX(-3em)
+
+.fadeIn-enter.fadeIn-enter-active
+	opacity: 1
+	transition: opacity 500ms ease-in, transform 300ms
+	transform: translateX(0)
+
+.fadeIn-leave
+	opacity: 1
+	
+.fadeIn-leave.fadeIn-leave-active
+	opacity: 0.01
+	transition: opacity 500ms ease-in
+
+.fadeIn-appear
+	opacity: 0.01
+	transform: translateX(-3em)
+
+
+.fadeIn-appear.fadeIn-appear-active
+	opacity: 1
+	transition: opacity 500ms ease-in, transform 300ms
+	transform: translateX(0)

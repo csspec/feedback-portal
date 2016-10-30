@@ -4,6 +4,8 @@ import QuestionList from '../../FeedbackView/QuestionList';
 import { makeAjaxRequest } from '../../Ajax';
 import config from '../../config';
 import Loading from '../../Loading';
+import { readCookie } from '../../Utils/Cookie';
+import Button from '../../Button'
 
 // expected props:
 //    course
@@ -37,7 +39,7 @@ export default class CourseField extends React.Component {
 
 	componentDidMount() {
 		makeAjaxRequest({
-			url: config.feedbackApi.statusLink + '/' + this.props.course.id + '/' + config.dummy.userId,
+			url: config.feedbackApi.statusLink + '/' + this.props.course.id + '/' + readCookie('CSS_FEEDBACK_SESSION_USER_ID'),
 			success: response => {
 				if (response.status) {
 					this.setState({ busy: false, filled: true })
@@ -56,17 +58,28 @@ export default class CourseField extends React.Component {
 		const instructor = this.props.instructor;
 
 		return (
-			<button className={ "list-group-item " + (this.state.filled || this.state.busy ? "disabled list-group-item-success" : "") }
-					onClick={this.handleClick.bind(this)}>
+			<Button className={ "list-group-item " + (this.state.filled || this.state.busy ? "disabled list-group-item-success" : "") }
+					onClick={this.handleClick.bind(this)}
+					style={{outline: 0, border: 'none', padding: '1em'}}>
 					<div className="row">
-						<div className="col-xs-2">{course_id}</div>
-						<div className="col-xs-4">{course_name}</div>
-						<div className="col-xs-5">{instructor.name}</div>
-						<div className="col-xs-1" style={{visibility: this.state.busy ? '' : 'hidden'}}>
-							<Loading height="14px" />
+						<div className="col-xs-2 col-sm-2" style={{display: 'flex', alignItems: 'center'}}>
+							<span className="material-icons" style={{fontSize: '50px'}}>account_circle</span>
+						</div>
+						<div className="col-xs-6 col-sm-6">
+							<strong style={{display: 'block'}}>{instructor.name}</strong>
+							<small style={{display: 'block', color: 'gray'}}>{course_name}</small>
+						</div>
+						<div className="col-xs-4 col-sm-4">
+						{
+							!this.state.busy
+							?	<small style={{display: 'block', color: 'gray'}}>
+									{this.state.filled ? "filled" : "Not yet filled"}
+								</small>
+							:   <Loading height={50} />
+						}
 						</div>
 					</div>
-			</button>
+			</Button>
 		)
 	}
 }

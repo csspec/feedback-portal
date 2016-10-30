@@ -63,6 +63,7 @@ export default class QuestionField extends React.Component {
             case 'multiple':
                 return (
                     <MultipleChoiceBasedQuestion options={question.options}
+                                                 handleValidation={this.props.handleValidation}
                                                  onChange={this.handleChoiceClick.bind(this)}
                     /> 
                 )
@@ -77,12 +78,21 @@ export default class QuestionField extends React.Component {
         return colors.default;
     }
 
+    getBackgroundColor() {
+        if (this.props.question.filled && this.props.question.validate)
+            return 'white';
+        if (!this.props.question.validate)
+            return 'rgb(249, 180, 188)';
+        return 'white';
+    }
+
     render() {
         const color = this.getColor();
+        const bg = this.getBackgroundColor();
         return (
-            <div className="well" style={{backgroundColor: 'white', borderRadius: '4px', boxShadow: 'none', borderColor: color}}>
-                <small style={{color: 'lightgray', letterSpacing: '0.1em', fontWeight: '600'}}>{"QUESTION " + this.props.count}</small>
-                <h3 style={{fontWeight: 'normal'}}>{this.props.question.statement}</h3>
+            <div className="well" style={{backgroundColor: bg, boxShadow: 'none', borderColor: color, marginBottom: 0, border: '0', borderBottom: '1px solid lightgray', transition: 'background 200ms'}}>
+                <small style={{color: 'gray', letterSpacing: '0.1em', fontWeight: '600'}}>{"QUESTION " + this.props.count}</small>
+                <h4 style={{fontWeight: 'normal'}}>{this.props.question.statement}</h4>
                 {this.renderQuestion(this.props.question)}
             </div>
         )

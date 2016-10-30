@@ -1,0 +1,27 @@
+.slideInUp-enter
+    opacity: 0.01
+    transform: translateY(3em)
+
+.slideInUp-enter.slideInUp-enter-active
+    opacity: 1
+    transition: opacity 500ms ease-out, transform 300ms
+    transform: translateY(0)
+
+.slideInUp-leave
+    opacity: 1
+    transition: translateY(0)
+    
+.slideInUp-leave.slideInUp-leave-active
+    opacity: 0.01
+    transition: translateY(-10em)
+    transition: transform 300ms
+
+.slideInUp-appear
+    opacity: 0.01
+    transform: translateY(3em)
+
+
+.slideInUp-appear.slideInUp-appear-active
+    opacity: 1
+    transition: opacity 500ms ease-out, transform 300ms
+    transform: translateY(0)

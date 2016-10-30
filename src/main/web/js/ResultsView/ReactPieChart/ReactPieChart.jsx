@@ -2,62 +2,57 @@ import React from 'react';
 import Chart from 'chart.js';
 
 export default class ReactPieChart extends React.Component {
-    componentDidMount() {
-        let ctx = this.refs.canvas.getContext('2d');
-        let PieChart = new Chart(ctx, {
-            type: this.props.type,
-            data: {
-                labels: this.props.dataLabels,
-                datasets: [{
-                    data: this.props.data,
-                    backgroundColor: this.props.backgroundColors,
-                    borderColor: this.props.borderColors,
-                    borderWidth: this.props.borderWidth
-                }]
+    constructor(props) {
+        super(props);
+        this.state = {
+            details: props.details
+        }
+    }
+
+    drawChart() {
+        let data = new google.visualization.DataTable();
+        data.addColumn('string', 'Option');
+        data.addColumn('number', 'Value');
+
+        let options = [];
+        for (const prop in this.props.details) {
+            options.push(new Array(prop, this.props.details[prop]))
+        }
+
+        options.sort((first, second) => {
+            return first[0] < second[0];
+        })
+
+        data.addRows(options);
+
+        console.log("Drawing Google Chart");
+        const chartOptions = {
+            animation: {
+                startup: true,
+                duration: 200,
+                easing: 'in'
             },
-            options: {
-                legend: {
-                    display: this.props.showLegends
-                }
-            }
-        });
+            fontSize: 14,
+            legend: {position: 'right', textStyle: {fontSize: 16}}
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        const chart = new google.visualization.PieChart(document.getElementById("gCharts" + this.props.id));
+        chart.draw(data, chartOptions);
+    }
+
+    componentDidMount() {
+        if (typeof google === 'undefined' || typeof google.charts === 'undefined') {
+            console.log("Unable to load google charts library");
+            return;
+        }
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(this.drawChart.bind(this));
     }
 
     render() {
         return (
-            <canvas ref="canvas" width={300} height={300} />
+            <div className="gCharts" id={"gCharts" + this.props.id} />
         )
     }
-}
-
-ReactPieChart.propTypes = {
-    data: React.PropTypes.array.isRequired,
-    type: React.PropTypes.string,
-    showLegends: React.PropTypes.bool,
-    backgroundColor: React.PropTypes.array,
-    borderColor: React.PropTypes.array,
-    borderWidth: React.PropTypes.number
-}
-
-ReactPieChart.defaultProps = {
-    dataLabels:  [ '5', '4', '3', '2', '1' ],
-    type: 'pie',
-    showLegends: false,
-    backgroundColors:  [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-    ],
-    borderColors: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-    ],
-    borderWidth: 1
 }

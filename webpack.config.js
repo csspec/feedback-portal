@@ -16,6 +16,7 @@ var common = {
     extensions: ['', '.js', '.jsx']
   },
   output: {
+    publicPath: 'assets/',
     path: './src/main/webapp/js/',
     filename: '[name].js'
   },
