@@ -45,4 +45,8 @@ public class Account {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String toString() {
+        return "Account <" + getUserid() + ">: " + getUsername() + " (" + getRole() + ")";
+    }
 }

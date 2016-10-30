@@ -1,0 +1,6 @@
+{
+    "name": "TeachersRoute",
+    "main": "./TeachersRoute",
+    "private": true,
+    "version": "0.0.0"
+}
