@@ -65,7 +65,7 @@ class AccountMenu extends React.Component {
             return (
                 <MuiThemeProvider>
                 <IconMenu iconButtonElement={iconButtonElement}>
-                    <MenuItem onTouchTap={() => window.location = config.profileLink}>
+                    <MenuItem onTouchTap={() => window.location = authLink} key="login">
                         <strong>
                             Login
                         </strong>
@@ -77,12 +77,12 @@ class AccountMenu extends React.Component {
         return (
             <MuiThemeProvider>
                 <IconMenu iconButtonElement={iconButtonElement}>
-                    <MenuItem>
+                    <MenuItem key="useraccount">
                         <strong onTouchTap={() => window.location = config.profileLink + '/' + this.state.account.userId}>
                             {this.state.account.userName}
                         </strong>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem key="logout">
                         <div onTouchTap={() => window.location = authLink}>
                             Logout
                         </div>
