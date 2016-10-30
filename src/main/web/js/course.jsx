@@ -11,7 +11,6 @@ class App extends React.Component {
 			<div className="container-fluid">
 				<Header />
 				<CourseListView />
-				<Footer />
 			</div>
 		)
 	}

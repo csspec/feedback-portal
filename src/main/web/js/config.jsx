@@ -1,16 +1,20 @@
-const basePath = 'http://172.31.73.0';
+import { readCookie } from './Utils/Cookie';
+const basePath = 'http://139.59.18.123';
+const baseAuth = 'http://139.59.36.12:8090'
+const basefeedApi = 'http://139.59.18.123:8090';
+const profileLink = '#';
 
 const config = {
 	authApi: {
-		redirectLink: 'http://172.31.73.181:8080/redirected',
-		authorizeLink: 'http://172.31.73.181:8090/oauth/authorize'
+		redirectLink: 'http://192.168.8.100:8080/redirected',
+		authorizeLink: baseAuth + '/oauth/authorize'
 	},
 
 	feedbackApi: {
-		submitLink: basePath + ':8090/feedback/response/submit',
-		resultsApi: basePath + ':8090/feedback/results',
-		templateLink: basePath + ':8090/feedback/template/1',
-		statusLink: basePath + ':8090/feedback/status',
+		submitLink: basefeedApi + '/feedback/response/submit',
+		resultsApi: basefeedApi + '/feedback/results',
+		templateLink: basefeedApi + '/feedback/template/1',
+		statusLink: basefeedApi + '/feedback/status',
 	},
 
 	identityApi: {
@@ -28,8 +32,11 @@ const config = {
 	},
 
 	dummy: {
-		userId: 2
-	}
+		userId: readCookie('CSS_FEEDBACK_SESSION_USER_ID')
+	},
+
+	profileLink: profileLink,
+	logoutLink: ''
 }
 
 module.exports = config;

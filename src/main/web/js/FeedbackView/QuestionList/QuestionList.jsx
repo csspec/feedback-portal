@@ -3,11 +3,12 @@ import QuestionField from '../QuestionField';
 import { makeAjaxRequest } from '../../Ajax';
 import Loading from '../../Loading';
 import config from '../../config';
+import Button from '../../Button';
 
 class QuestionListHeading extends React.Component {
     render() {
         return (
-            <div className="panel-heading">
+            <div className="panel-heading" style={{backgroundColor: 'rgb(47, 164, 191)', color: 'white', border: 'none', boxShadow: 'none'}}>
                 <div className="panel-title">
                     <div className="row">
                         <div className="col-xs-6">
@@ -32,7 +33,8 @@ export default class QuestionList extends React.Component {
             responses: {},
             questionList: [],
             submitting: false,
-            loading: true
+            loading: true,
+            handleValidation: false,
         }
     }
 
@@ -42,11 +44,11 @@ export default class QuestionList extends React.Component {
 
         let questions = this.state.questionList;
         questions = questions.map(question => {
-            if (question.id === response.questionId)
+            if (question.questionId === response.questionId) {
                 return Object.assign({}, question, { filled: true, validate: true });
+            }
             return question;
         })
-        console.log(response);
         this.setState({ responses: responses, questionList: questions });
     }
 
@@ -58,16 +60,18 @@ export default class QuestionList extends React.Component {
         // else we are in problem, some question may not have response
         let questions = this.state.questionList;
         questions = questions.map(question => {
-            if (!responses.hasOwnProperty(question.id) || !question.filled) {
+            if (!responses.hasOwnProperty(question.questionId) || !question.filled) {
                 return Object.assign({}, question, {validate: false });
             }
             return question;
         });
-        this.setState({ questionList: questions });
+        console.log(questions);
+        this.setState({ questionList: questions, handleValidation: true });
         return false;
     }
 
     handleSubmit(e) {
+        console.log("Submit: handleSubmit");
         e.preventDefault();
         if (!this.validateResponses())
             return false;
@@ -128,10 +132,23 @@ export default class QuestionList extends React.Component {
     }
 
     render() {
-        console.log("rendering QuestionList with instructor: " + JSON.stringify(this.props.instructor) + ", " + JSON.stringify(this.props.course));
         if (this.state.submitting || this.state.loading) {
             return (
-                <Loading />
+                <div className="panel panel-default"
+                    style={{
+                        backgroundColor: 'white',
+                        maxWidth: '800px',
+                        display: 'block',
+                        margin: 'auto',
+                        boxShadow: '0 0.2em 0.3em lightgray',
+                        marginBottom: '5em',
+                        border: 0,
+                        borderRadius: '3px',
+                        padding: '3em'
+                    }} 
+                >
+                    <Loading height={50} />
+                </div>
             )
         }
 
@@ -142,18 +159,28 @@ export default class QuestionList extends React.Component {
                                count={key+1}
                                id={question.id}
                                validate={question.validate}
+                               handleValidation={this.state.handleValidation}
                                onChange={this.registerChange.bind(this)}
                 />
             )
         })
 
         return (
-            <form className="panel panel-default" style={{backgroundColor: 'white'}} onSubmit={this.handleSubmit.bind(this)} >
+            <form className="panel panel-default" style={{
+                backgroundColor: 'white',
+                maxWidth: '800px',
+                display: 'block',
+                margin: 'auto',
+                border: 0,
+                borderRadius: '3px',
+                boxShadow: '0 0.2em 0.3em lightgray',
+                marginBottom: '5em'
+            }} onSubmit={this.handleSubmit.bind(this)} >
                 <QuestionListHeading instructor={this.props.instructor} course={this.props.course} />
-                <div className="panel-body">
+                <div className="panel-body" style={{padding: 0}}>
                     {questions}
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <Button style={{ color: 'rgb(47, 164, 191)', marginLeft: 'auto', display: 'block', width: '50%'}} type="submit">Submit</Button>
             </form>
         )
     }

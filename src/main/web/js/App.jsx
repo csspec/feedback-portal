@@ -7,10 +7,11 @@ import '../sass/common.sass';
 export default class App extends React.Component {
 	render() {
 		return (
-			<div className="container-fluid">
+			<div style={{minHeight: '100%'}}>
 				<Header />
-				{this.props.children}
-				<Footer bottom={this.props.stickyFooter}/>
+				<div className="container" style={{minHeight: '100%'}}>
+					{this.props.children}
+				</div>
 			</div>
 		)
 	}

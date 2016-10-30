@@ -70,7 +70,6 @@ class App extends React.Component {
     		<div>
     			<Header />
 				<ViewManager view={this.state.view} {...this.state.propsPassed} />
-            	<Footer/>
       		</div>
     	)
   	}

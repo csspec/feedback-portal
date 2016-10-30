@@ -1,0 +1,25 @@
+.zoomOutEnter-enter
+	opacity: 0.01
+	transform: scale(10)
+
+.zoomOutEnter-enter.zoomOutEnter-enter-active
+	opacity: 1
+	transition: opacity 500ms ease-in, transform 300ms
+	transform: scale(1)
+
+.zoomOutEnter-leave
+	opacity: 1
+	
+.zoomOutEnter-leave.zoomOutEnter-leave-active
+	opacity: 0.01
+	transition: opacity 500ms ease-in
+
+.zoomOutEnter-appear
+	opacity: 0.01
+	transform: scale(10)
+
+
+.zoomOutEnter-appear.zoomOutEnter-appear-active
+	opacity: 1
+	transition: opacity 500ms ease-in, transform 300ms
+	transform: scale(1)

@@ -1,0 +1,27 @@
+.slideInRight-enter
+	opacity: 0.01
+	transform: translateX(10em)
+
+.slideInRight-enter.slideInRight-enter-active
+	opacity: 1
+	transition: opacity 500ms ease-in, transform 300ms
+	transform: translateX(0)
+
+.slideInRight-leave
+	opacity: 1
+	transform: translateX(0)
+	
+.slideInRight-leave.slideInRight-leave-active
+	opacity: 0.01
+	transform: translateX(-10em)
+	transition: opacity 500ms ease-in, transform 300ms
+
+.slideInRight-appear
+	opacity: 0.01
+	transform: translateX(10em)
+
+
+.slideInRight-appear.slideInRight-appear-active
+	opacity: 1
+	transition: opacity 500ms ease-in, transform 300ms
+	transform: translateX(0)

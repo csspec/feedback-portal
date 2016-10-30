@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './checkbox_style.sass';
 
 export default class MultipleChoiceBasedQuestion extends React.Component {
@@ -10,7 +9,8 @@ export default class MultipleChoiceBasedQuestion extends React.Component {
                 option.checked = false;
                 return option;
             }),
-    		questionId: props.questionId
+    		questionId: props.questionId,
+            checked: false,
     	}
     }
 
@@ -28,7 +28,7 @@ export default class MultipleChoiceBasedQuestion extends React.Component {
             opt.value = option.value;
             return opt;
         });
-        this.setState({options: options});
+        this.setState({options: options, checked: true});
     }
 
     render() {
@@ -41,7 +41,9 @@ export default class MultipleChoiceBasedQuestion extends React.Component {
                                key={ key }
                                value={ option.label }
                         />
-                        <i className="material-icons">{option.checked ? "check_circle" : "radio_button_unchecked" }</i>
+                        <i className="material-icons" style={{
+                            color: option.checked ? "rgb(47, 164, 191)" : "black"
+                        }}>{option.checked ? "check_circle" : "radio_button_unchecked" }</i>
                         {option.value}
                     </label>
 				</div>
@@ -49,8 +51,7 @@ export default class MultipleChoiceBasedQuestion extends React.Component {
     	})
 
         return (
-        	<div className="multiple-choice"
-        			onChange={this.onChange.bind(this)}>
+        	<div onChange={this.onChange.bind(this)}>
         		{options}
         	</div>
         )
