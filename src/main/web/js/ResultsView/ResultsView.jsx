@@ -13,12 +13,6 @@ const details = {
     instructor_name: "Pushpinder Singh"
 }
 
-function Default() {
-    return (
-        <p>Hello, World</p>
-    )
-}
-
 export default class ResultsView extends React.Component {
     constructor(props) {
         super(props);
