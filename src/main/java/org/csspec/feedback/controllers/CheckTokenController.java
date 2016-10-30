@@ -54,7 +54,7 @@ public class CheckTokenController {
 
 
     public static Map<String, String> checkValidity(String hash) {
-        final String uri = "http://localhost:8090/oauth/check_token";
+        final String uri = "http://139.59.36.12:8090/oauth/check_token";
         System.out.println("Checking token: " + hash);
 
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
