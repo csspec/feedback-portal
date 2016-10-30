@@ -24,7 +24,8 @@ const config = {
 	},
 
 	academicApi: {
-		coursesOptedLink: basePath + ':8080/academic/courses/students'
+		coursesOptedLink: basePath + ':8080/academic/courses/students',
+		course: basePath + ':8080/academic/courses'
 	},
 
 	cookie: {
