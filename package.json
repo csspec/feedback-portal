@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/csspec/feedback-portal.git"
+    "url": "git+https://github.com/csspec/feedback-portal.git",
+    "type": "git"
   },
   "author": "PrinceDhaliwal, crypton3535",
   "license": "MIT",
