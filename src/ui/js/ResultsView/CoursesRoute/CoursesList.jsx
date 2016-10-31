@@ -6,6 +6,8 @@ import config from '../../config';
 import Button from '../../Button';
 import Loading from '../../Loading';
 import WhereIsEveryone from '../../ErrorImages/WhereIsEveryone';
+import SearchBar from '../Common/SearchBar';
+import FontIcon from 'material-ui/FontIcon';
 
 const loader = (
     <div key="loader" style={{
@@ -92,26 +94,43 @@ export default class CoursesList extends React.Component {
         this.fetchCourses();
     }
 
+    handleSearch(keyword) {
+        console.log(keyword);
+    }
+
     render() {
         let view = !this.state.loading ? <CoursesListGroup list={this.state.courseList} /> : loader;
         return (
             <div>
                 <nav className="navbar navbar-default" style={{
                     border: 0,
+                    display: 'flex',
                     borderRadius: '2px',
                 }}>
                     <div className="row" style={{
-                        margin: 0,
-                        maxWidth: '800px',
+                        maxWidth: '768px',
                         display: 'flex',
                         margin: 'auto',
+                        width: '100%',
                         alignItems: 'center'
                     }}>
-                        <h4>Select a course to view its detailed results</h4>
+                        <div className="col-sm-2 col-xs-2">
+                            <Link to="/">
+                                <FontIcon className="material-icons">arrow_back</FontIcon>
+                            </Link>
+                        </div>
+                        <div className="col-sm-10 col-xs-10">
+                            <h4>Select a course to view its detailed results</h4>
+                        </div>
                     </div>
                 </nav>
                 <SlideInUp>
-                    <SearchBar onSearch={this.handleSearch.bind(this)} />
+                    <SearchBar onSearch={this.handleSearch.bind(this)}
+                        style={{
+                            maxWidth: '768px',
+                            display: 'block',
+                            margin: 'auto'
+                        }}/>
                     {view}
                 </SlideInUp>
             </div>

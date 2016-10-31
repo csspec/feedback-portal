@@ -14,8 +14,13 @@ export default class SearchBar extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit.bind(this)}>
-                <input type="text" placeholder="Search..." onChange={this.handleChange.bind(this)} />
+            <form style={this.props.style} className="form-group" onSubmit={this.handleSubmit.bind(this)}>
+                <input style={{
+                    outline: 0,
+                    border: 0,
+                    padding: '1em 0.5em',
+                    fontSize: '18px'
+                }} type="text" placeholder="Search..." onChange={this.handleChange.bind(this)} />
             </form>
         );
     }

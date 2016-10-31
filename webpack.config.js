@@ -7,17 +7,16 @@ var common = {
   cache: true,
   debug: true,
   entry: {
-    index: './src/main/web/js/index.jsx',
-    course: './src/main/web/js/course.jsx',
-    home: './src/main/web/js/home.jsx',
-    results: './src/main/web/js/results.jsx'
+    index: './src/ui/js/index.jsx',
+    redirect_handler: './src/ui/js/redirect_handler.jsx',
+    home: './src/ui/js/home.jsx',
+    results: './src/ui/js/results.jsx'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    publicPath: './src/main/webapp/assets/',
-    path: './src/main/webapp/js/',
+    path: './public/build/',
     filename: '[name].js'
   },
   devServer: {

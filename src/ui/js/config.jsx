@@ -6,7 +6,7 @@ const profileLink = '#';
 
 const config = {
 	authApi: {
-		redirectLink: 'http://192.168.8.100:8080/redirected',
+		redirectLink: 'http://192.168.8.100:3000/redirect',
 		authorizeLink: baseAuth + '/oauth/authorize'
 	},
 
@@ -33,7 +33,7 @@ const config = {
 	},
 
 	dummy: {
-		userId: readCookie('CSS_FEEDBACK_SESSION_USER_ID')
+		userId: window.__CSSPEC__.userId
 	},
 
 	profileLink: profileLink,

@@ -1,9 +1,34 @@
-var express = require('express');
-var router = express.Router();
+const request = require('request');
+const jwt = require('jsonwebtoken');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+function parseJWT(token) {
+    const secret = process.env.CSSPEC_SECRET;
 
-module.exports = router;
+    try {
+        return jwt.verify(token, secret);
+    } catch (error) {
+        return false;
+    }
+}
+
+// make server aware of the user
+function userAware(req, res, next) {
+    if (!req.cookies || !req.cookies['FEEDBACK_CSSPEC']) {
+        next();
+        return;
+    }
+
+    console.log("Checking the user...");
+
+    let body = parseJWT(req.cookies['FEEDBACK_CSSPEC']);
+
+    if (body) {
+        req.userId = body.id;
+        req.userName = body.name;
+        req.userRole = body.role;
+        req.accessToken = body.accessToken;
+    }
+    next();
+}
+
+module.exports = userAware;
