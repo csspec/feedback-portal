@@ -31,3 +31,5 @@ nbdist/
 .nb-gradle/
 
 
+src_old/
+csspec.iml
