@@ -20,18 +20,18 @@ const loader = (
     </div>
 )
 
-class ListItem extends React.Component {
+class Course extends React.Component {
     render() {
         return (
             <Button className="list-group-item"
                     style={{outline: 0, border: 'none', padding: '1em'}}>
-                    <Link to={ "/teachers/" + this.props.teacher.userId } className="row">
+                    <Link to={ "/courses/" + this.props.course.courseId } className="row">
                         <div className="col-xs-2 col-sm-2" style={{display: 'flex', alignItems: 'center'}}>
                             <span className="material-icons" style={{fontSize: '50px'}}>account_circle</span>
                         </div>
                         <div className="col-xs-6 col-sm-6">
-                            <strong style={{display: 'block'}}>{this.props.teacher.userName}</strong>
-                            <small style={{display: 'block', color: 'gray'}}>{this.props.teacher.email}</small>
+                            <strong style={{display: 'block'}}>{this.props.course.courseName}</strong>
+                            <small style={{display: 'block', color: 'gray'}}>{this.props.course.departmentId}</small>
                         </div>
                         <div className="col-xs-4 col-sm-4">
                             { /* we have to somehow utilize this space */ }
@@ -42,11 +42,11 @@ class ListItem extends React.Component {
     }
 }
 
-class TeachersListGroup extends React.Component {
+class CoursesListGroup extends React.Component {
     render() {
-        let listitems = this.props.list.map(teacher => {
+        let listitems = this.props.list.map(course => {
             return (
-                <ListItem teacher={teacher} key={teacher.userId} /> 
+                <Course course={course} key={course.courseId} /> 
             )
         });
 
@@ -73,27 +73,27 @@ class TeachersListGroup extends React.Component {
     }
 }
 
-export default class TeachersList extends React.Component {
+export default class CoursesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            teachersList: [],
+            courseList: [],
             loading: true,
         }
     }
 
-    fetchTeachersList() {
-        window.fbApi.getTeachersList(list => {
-            this.setState({teachersList: list, loading: false});
-        })
+    fetchCourses() {
+        fbApi.getAllCourses(list => {
+            this.setState((prevState, props) => ({courseList: list, loading: false}));
+        }, console.log)
     }
 
     componentDidMount() {
-        this.fetchTeachersList();
+        this.fetchCourses();
     }
 
     render() {
-        let view = !this.state.loading ? <TeachersListGroup list={this.state.teachersList} /> : loader;
+        let view = !this.state.loading ? <CoursesListGroup list={this.state.courseList} /> : loader;
         return (
             <div>
                 <nav className="navbar navbar-default" style={{
@@ -107,10 +107,11 @@ export default class TeachersList extends React.Component {
                         margin: 'auto',
                         alignItems: 'center'
                     }}>
-                        <h4>Select a teacher</h4>
+                        <h4>Select a course to view its detailed results</h4>
                     </div>
                 </nav>
                 <SlideInUp>
+                    <SearchBar onSearch={this.handleSearch.bind(this)} />
                     {view}
                 </SlideInUp>
             </div>

@@ -31,16 +31,17 @@ export default class TeacherFeedbackResult extends React.Component {
         this.setState((prevState, prop) => ({teacher: teacher, progress: prevState.progress + 1}));
     }
 
-    handleTeachersFeedback(responses) {
+    handleCourseFeedback(responses) {
+        console.log(responses);
         responses = responses.find(element => {
-            return element.courseId === this.props.params.courseId;
+            return element.teacherId === this.props.params.teacherId;
         });
         this.setState((prevState, prop) => ({ responses: responses, progress: prevState.progress + 1}));
     }
 
     componentDidMount() {
         window.fbApi.getFeedbackTemplate(this.handleTemplate.bind(this), console.log);
-        window.fbApi.getCoursesFeedbackForTeacher(this.props.params.teacherId, this.handleTeachersFeedback.bind(this), console.log);
+        window.fbApi.getCoursesFeedbackForCourse(this.props.params.courseId, this.handleCourseFeedback.bind(this), console.log);
         window.fbApi.getTeacherByTeacherId(this.props.params.teacherId, this.handleTeacher.bind(this), console.log);
         window.fbApi.getCourseByCourseId(this.props.params.courseId, this.handleCourse.bind(this), console.log);
     }
@@ -74,7 +75,7 @@ export default class TeacherFeedbackResult extends React.Component {
                         alignItems: 'center'
                     }}>
                         <div className="col-xs-2 col-sm-2">
-                            <Link to={'/teachers/' + this.props.params.teacherId}>
+                            <Link to={'/courses/' + this.props.params.courseId}>
                                 <Button style={{
                                     maxWidth: 0,
                                     height: 'auto',
@@ -86,14 +87,14 @@ export default class TeacherFeedbackResult extends React.Component {
                                 }}><span className="material-icons">arrow_back</span></Button>
                             </Link>
                         </div>
-                        <div className="col-xs-5 col-sm-5">
-                            <Link to={'/teachers/' + this.props.params.teacherId}>
-                                <h4>{this.state.teacher.common.userName}</h4>
-                            </Link>
-                        </div>
                         <div className="col-xs-5 col-sm-5 text-right">
                             <Link to={'/courses/' + this.props.params.courseId}>
                                 <h4>{this.state.course.courseName}</h4>
+                            </Link>
+                        </div>
+                        <div className="col-xs-5 col-sm-5">
+                            <Link to={'/teachers/' + this.props.params.teacherId}>
+                                <h4>{this.state.teacher.common.userName}</h4>
                             </Link>
                         </div>
                     </div>

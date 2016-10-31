@@ -25,13 +25,13 @@ class ListItem extends React.Component {
         return (
             <Button className="list-group-item"
                     style={{outline: 0, border: 'none', padding: '1em'}}>
-                    <Link to={ "/teachers/" + this.props.teacherId + '/' + this.props.course.courseId } className="row">
+                    <Link to={ "/courses/" + this.props.courseId + '/' + this.props.teacher.common.userId } className="row">
                         <div className="col-xs-2 col-sm-2" style={{display: 'flex', alignItems: 'center'}}>
-                            <span className="material-icons" style={{fontSize: '50px'}}>library_books</span>
+                            <span className="material-icons" style={{fontSize: '50px'}}>account_circle</span>
                         </div>
                         <div className="col-xs-6 col-sm-6">
-                            <strong style={{display: 'block'}}>{this.props.course.courseName}</strong>
-                            <small style={{display: 'block', color: 'gray'}}>{this.props.course.courseId}</small>
+                            <strong style={{display: 'block'}}>{this.props.teacher.common.userName}</strong>
+                            <small style={{display: 'block', color: 'gray'}}>{this.props.teacher.common.email}</small>
                         </div>
                         <div className="col-xs-4 col-sm-4">
                             { /* we have to somehow utilize this space */ }
@@ -44,9 +44,9 @@ class ListItem extends React.Component {
 
 class CoursesListGroup extends React.Component {
     render() {
-        let listitems = this.props.list.map(course => {
+        let listitems = this.props.list.map(teacher => {
             return (
-                <ListItem teacherId={this.props.teacherId} course={course} key={course.courseId} /> 
+                <ListItem courseId={this.props.courseId} teacher={teacher} key={teacher.common.userId} /> 
             )
         });
 
@@ -71,46 +71,47 @@ class CoursesListGroup extends React.Component {
     }
 }
 
-export default class TeacherCoursesList extends React.Component {
+export default class CourseTeachersList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            coursesList: [],
+            teacherList: [],
             total: 2,
             progress: 0,
         }
     }
 
-    handleCourseFetch(course) {
-        let newlist = this.state.coursesList;
-        newlist.push(course);
-        this.setState((prevState, prop) => ({coursesList: newlist, progress: prevState.progress + 1 }));
+    handleTeacher(teacher) {
+        let newlist = this.state.teacherList;
+        console.log(teacher);
+        newlist.push(teacher);
+        this.setState((prevState, prop) => ({teacherList: newlist, progress: prevState.progress + 1 }));
     }
 
     handleCoursesFeedback(list) {
         this.setState((prevState, props) => ({total: prevState.total + list.length, progress: prevState.progress + 1}))
         list.map(feedback => {
-            fbApi.getCourseByCourseId(feedback.courseId, this.handleCourseFetch.bind(this), console.log);
+            fbApi.getTeacherByTeacherId(feedback.teacherId, this.handleTeacher.bind(this), console.log);
         })
     }
 
-    fetchTeacherFeedbacksList() {
-        window.fbApi.getCoursesFeedbackForTeacher(this.props.params.teacherId,
+    fetchCourseFeedbackList() {
+        window.fbApi.getCoursesFeedbackForCourse(this.props.params.courseId,
             this.handleCoursesFeedback.bind(this),
             error => console.log(error)
         );
-        window.fbApi.getTeacherByTeacherId(this.props.params.teacherId, teacher => {
-            this.setState((prevState, props) => ({teacher: teacher, progress: prevState.progress + 1}));
+        window.fbApi.getCourseByCourseId(this.props.params.courseId, course => {
+            this.setState((prevState, props) => ({course: course, progress: prevState.progress + 1}));
         }, console.log);
     }
 
     componentDidMount() {
-        this.fetchTeacherFeedbacksList();
+        this.fetchCourseFeedbackList();
     }
 
     render() {
         let view = (this.state.progress >= this.state.total)
-                    ? <CoursesListGroup key="courseList" teacherId={this.props.params.teacherId} list={this.state.coursesList} />
+                    ? <CoursesListGroup key="courseList" courseId={this.props.params.courseId} list={this.state.teacherList} />
                     : loader;
         return (
             <div>
@@ -137,9 +138,7 @@ export default class TeacherCoursesList extends React.Component {
                         </div>
                         <div className='col-xs-10 col-sm-10 text-center'>
                             <h4>
-                            Courses taught by {(this.state.teacher)
-                                                ? this.state.teacher.common.userName
-                                                : <small>Loading...</small>}
+                                Course feedback according to the instructor
                             </h4>
                         </div>
                     </div>

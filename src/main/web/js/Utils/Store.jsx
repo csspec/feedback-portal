@@ -89,10 +89,6 @@ class CacheStore {
         }
     }
 
-    getCoursesTaught(url, callback, error) {
-        this.getObject(url, callback, error);
-    }
-
     getObject(url, callback, error) {
         let object = this._fbstore.getItem(url);
 
@@ -139,6 +135,14 @@ class CacheStore {
 
     getTeacherByTeacherId(teacherId, callback, error) {
         this.getTeacher(config.identityApi.teachers + '/' + teacherId, callback, error);
+    }
+
+    getCoursesFeedbackForCourse(courseId, callback, error) {
+        this.getObject(config.feedbackApi.resultsApi + '/courses/' + courseId, callback, error);
+    }
+
+    getAllCourses(callback, error) {
+        this.getObject(config.academicApi.course, callback, error);
     }
 }
 

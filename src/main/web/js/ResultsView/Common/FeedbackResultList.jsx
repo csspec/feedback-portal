@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TakeSomeCoffee from '../../ErrorImages/TakeSomeCoffee';
 import ReactPieChart from '../ReactPieChart';
 
 class SingleQuestionResponses extends Component {
@@ -70,16 +71,29 @@ export default class FeedbackResultList extends React.Component {
         const template = this.props.template;
         const responses = this.props.responses.responses;
 
-        const details = this.renderDetailsIntoArray(template, responses);
-
-        const listitems = details.map(question => {
+        let details = this.renderDetailsIntoArray(template, responses);
+        if (details[0].response.average === 'NaN')
+            details = [];
+        let listitems = details.map(question => {
             return (
                 <SingleQuestionResponses key={question.id} question={question.question} response={question.response} id={question.id} />
             )
-        })
+        });
+
+        if (listitems.length < 1) {
+            listitems = (
+                <TakeSomeCoffee>
+                    Noone yet filled the feedback form. May its the time to take some coffee.
+                </TakeSomeCoffee>
+            );
+        }
 
         return (
-            <div className="list-group">
+            <div className="list-group" style={{
+                maxWidth: '700px',
+                display: 'block',
+                margin: 'auto'
+            }}>
                 {listitems}
             </div>
         )

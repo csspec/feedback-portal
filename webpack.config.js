@@ -16,7 +16,7 @@ var common = {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    publicPath: 'assets/',
+    publicPath: './src/main/webapp/assets/',
     path: './src/main/webapp/js/',
     filename: '[name].js'
   },
@@ -46,7 +46,7 @@ var common = {
       loader: "url-loader?limit=10000&mimetype=application/font-woff2&name=[path][name].[ext]"
     }, {
       test: /\.(eot|ttf|svg|gif|png)$/,
-      loader: "file-loader"
+      loader: "file-loader?name=assets/img-[hash].[ext]"
     }]
   },
   plugins: [
