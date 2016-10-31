@@ -39,7 +39,7 @@ export default class CourseField extends React.Component {
 
 	componentDidMount() {
 		makeAjaxRequest({
-			url: config.feedbackApi.statusLink + '/' + this.props.course.id + '/' + readCookie('CSS_FEEDBACK_SESSION_USER_ID'),
+			url: config.feedbackApi.statusLink + '/' + this.props.course.id + '/' + config.dummy.userId,
 			success: response => {
 				if (response.status) {
 					this.setState({ busy: false, filled: true })

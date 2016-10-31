@@ -28,10 +28,6 @@ const config = {
 		course: basePath + ':8080/academic/courses'
 	},
 
-	cookie: {
-		session: 'CSS_FEEDBACK_SESSION_USER_ID'
-	},
-
 	dummy: {
 		userId: window.__CSSPEC__.userId
 	},

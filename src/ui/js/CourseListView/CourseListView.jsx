@@ -30,7 +30,7 @@ export default class CourseListView extends React.Component {
 
 	componentDidMount() {
 		makeAjaxRequest({
-			url: config.academicApi.coursesOptedLink + '/' + readCookie('CSS_FEEDBACK_SESSION_USER_ID'),
+			url: config.academicApi.coursesOptedLink + '/' + config.dummy.userId,
 			success: list => {
 				list = list.map(course => {
 					let item = {};

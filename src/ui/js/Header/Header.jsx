@@ -40,7 +40,7 @@ class AccountMenu extends React.Component {
 
     componentDidMount() {
         if (typeof config.dummy.userId === 'undefined'
-            || config.dummy.userId === null
+            || config.dummy.userId == null
             || config.dummy.userId.length < 1) {
             this.setState({notLoggedIn: true, busy: false});
         }
