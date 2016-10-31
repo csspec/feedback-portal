@@ -1,5 +1,7 @@
 package org.csspec.feedback.controllers;
 
+import org.apache.catalina.connector.Request;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.csspec.feedback.config.Jwt;
 import org.csspec.feedback.helpers.Account;
 import org.csspec.feedback.helpers.RequestValidator;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -18,7 +21,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 @RestController
-@RequestMapping("/check_token")
 public class CheckTokenController {
 
     private static final String COOKIE_NAME = "FEEDBACK_CSSPEC";
@@ -42,7 +44,7 @@ public class CheckTokenController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/check_token", method = RequestMethod.POST)
     public ResponseEntity<?> checkToken(@RequestBody Token request) {
         String hash = request.getHash();
         System.out.println("Handling check_token: hash: " + hash);
@@ -66,13 +68,33 @@ public class CheckTokenController {
             DateFormat df = new SimpleDateFormat("EEE, dd-MMM-yyyy HH:mm:ss zzz");
             df.setTimeZone(TimeZone.getTimeZone("GMT"));
             String cookieExpire = df.format(expdate);
-            header.set("Set-Cookie", SESSION_COOKIE_NAME + "=" + account.getUserid());
-            header.set("Set-Cookie", COOKIE_NAME + "=" + Jwt.getJwt(hash) + "; Expires=" + cookieExpire);
-            header.set("Set-Cookie", SESSION_TOKEN + "=" + hash);
+            header.set("Set-Cookie",  COOKIE_NAME + "=" + Jwt.getJwt(hash) + "; Expires=" + cookieExpire);
             return new ResponseEntity<Object>(Collections.singletonMap("redirect_uri", redirect_uri),
                                               header,
                                               HttpStatus.OK);
         }
         return new ResponseEntity<Object>(Collections.singletonMap("redirect_uri", redirect_uri), HttpStatus.OK);
+    }
+
+    @RequestMapping("/user")
+    public ResponseEntity<?> getUser(HttpServletRequest request) {
+        Account account = RequestValidator.checkCookie(request);
+        if (account == null) {
+            return new ResponseEntity<>(Collections.singletonMap("message", "not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(account, HttpStatus.OK);
+    }
+
+    @RequestMapping("/user_courses")
+    public ResponseEntity<?> getUserCourses(HttpServletRequest request) {
+        Account account = RequestValidator.checkCookie(request);
+        if (account == null) {
+            return new ResponseEntity<>(Collections.singletonMap("message", "not found"), HttpStatus.NOT_FOUND);
+        }
+
+        if (!account.getRole().equals("STUDENT"))
+            return new ResponseEntity<>(Collections.singletonMap("message", "not a student"), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<Object>(account, HttpStatus.OK);
     }
 }

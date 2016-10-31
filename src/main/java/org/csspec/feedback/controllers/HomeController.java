@@ -10,7 +10,7 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping("/list")
+    @RequestMapping(value = { "/list", "/form"})
     public String feedback() {
         return "index";
     }
