@@ -7,6 +7,7 @@ import Button from '../../Button';
 import Loading from '../../Loading';
 import WhereIsEveryone from '../../ErrorImages/WhereIsEveryone';
 import SearchBar from '../Common/SearchBar';
+import SideBar from '../../NavigationPane/SideBar';
 import FontIcon from 'material-ui/FontIcon';
 
 const loader = (
@@ -101,40 +102,45 @@ export default class CoursesList extends React.Component {
     render() {
         let view = !this.state.loading ? <CoursesListGroup list={this.state.courseList} /> : loader;
         return (
-            <div>
-                <nav className="navbar navbar-default" style={{
-                    border: 0,
-                    display: 'flex',
-                    borderRadius: '2px',
-                }}>
-                    <div className="row" style={{
-                        maxWidth: '768px',
+            <div className="row"  style={{margin: 0}}>
+                <div className="sidebar col-sm-2" style={{margin: 0}}>
+                    <SideBar />
+                </div>
+                <div className="rest col-sm-10" style={{margin: 0, padding: 0}}>
+                    <nav className="navbar navbar-default" style={{
+                        border: 0,
                         display: 'flex',
-                        margin: 'auto',
-                        width: '100%',
-                        alignItems: 'center'
+                        borderRadius: '2px',
                     }}>
-                        <div className="col-sm-2 col-xs-2">
-                            <Link to="/">
-                                <FontIcon className="material-icons">arrow_back</FontIcon>
-                            </Link>
-                        </div>
-                        <div className="col-sm-10 col-xs-10">
-                            <h4>Select a course to view its detailed results</h4>
-                        </div>
-                    </div>
-                </nav>
-                <SlideInUp>
-                    <SearchBar onSearch={this.handleSearch.bind(this)}
-                        style={{
+                        <div className="row" style={{
                             maxWidth: '768px',
-                            display: 'block',
-                            margin: 'auto'
-                        }}/>
-                    {view}
-                </SlideInUp>
+                            display: 'flex',
+                            margin: 'auto',
+                            width: '100%',
+                            alignItems: 'center'
+                        }}>
+                            <div className="col-sm-2 col-xs-2">
+                                <Link to="/">
+                                    <FontIcon className="material-icons">arrow_back</FontIcon>
+                                </Link>
+                            </div>
+                            <div className="col-sm-10 col-xs-10">
+                                <h4>Select a course to view its detailed results</h4>
+                            </div>
+                        </div>
+                    </nav>
+                    <SlideInUp>
+                        <SearchBar onSearch={this.handleSearch.bind(this)}
+                            style={{
+                                maxWidth: '768px',
+                                display: 'block',
+                                margin: 'auto'
+                            }}/>
+                        {view}
+                    </SlideInUp>
+                </div>
             </div>
-        )
+        );
     }
 }
 

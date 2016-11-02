@@ -6,6 +6,7 @@ import config from '../../config';
 import Button from '../../Button';
 import Loading from '../../Loading';
 import WhereIsEveryone from '../../ErrorImages/WhereIsEveryone';
+import SideBar from '../../NavigationPane/SideBar';
 
 const loader = (
     <div key="loader" style={{
@@ -95,26 +96,31 @@ export default class TeachersList extends React.Component {
     render() {
         let view = !this.state.loading ? <TeachersListGroup list={this.state.teachersList} /> : loader;
         return (
-            <div>
-                <nav className="navbar navbar-default" style={{
-                    border: 0,
-                    borderRadius: '2px',
-                }}>
-                    <div className="row" style={{
-                        margin: 0,
-                        maxWidth: '800px',
-                        display: 'flex',
-                        margin: 'auto',
-                        alignItems: 'center'
+            <div className="row"  style={{margin: 0}}>
+                <div className="sidebar col-sm-2" style={{margin: 0}}>
+                    <SideBar />
+                </div>
+                <div className="rest col-sm-10" style={{margin: 0, padding: 0}}>
+                    <nav className="navbar navbar-default" style={{
+                        border: 0,
+                        borderRadius: '2px',
                     }}>
-                        <h4>Select a teacher</h4>
-                    </div>
-                </nav>
-                <SlideInUp>
-                    {view}
-                </SlideInUp>
+                        <div className="row" style={{
+                            margin: 0,
+                            maxWidth: '800px',
+                            display: 'flex',
+                            margin: 'auto',
+                            alignItems: 'center'
+                        }}>
+                            <h4>Select a teacher</h4>
+                        </div>
+                    </nav>
+                    <SlideInUp>
+                        {view}
+                    </SlideInUp>
+                </div>
             </div>
-        )
+        );
     }
 }
 

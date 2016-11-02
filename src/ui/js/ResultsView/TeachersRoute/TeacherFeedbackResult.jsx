@@ -4,6 +4,7 @@ import Loading from '../../Loading';
 import SlideInUp from '../../Transitions/SlideInUp';
 import Button from '../../Button';
 import { Link } from 'react-router';
+import SideBar from '../../NavigationPane/SideBar';
 
 export default class TeacherFeedbackResult extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class TeacherFeedbackResult extends React.Component {
             course: {},
             total: 4,
             progress: 0
-        }
+        };
     }
 
     handleTemplate(template) {
@@ -58,10 +59,14 @@ export default class TeacherFeedbackResult extends React.Component {
                     }}>
                     <Loading height={50} showProgress={true} progress={this.state.progress} total={this.state.total} />
                 </div>
-            )
+            );
         }
         return (
-            <div>
+            <div className="row"  style={{margin: 0}}>
+                <div className="sidebar col-sm-2" style={{margin: 0}}>
+                    <SideBar />
+                </div>
+                <div className="rest col-sm-10" style={{margin: 0, padding: 0}}>
                 <nav className="navbar navbar-default" style={{
                     border: 0,
                     borderRadius: '2px',
@@ -101,6 +106,7 @@ export default class TeacherFeedbackResult extends React.Component {
                 <SlideInUp>
                     <FeedbackResultList template={this.state.template} responses={this.state.responses} />
                 </SlideInUp>
+                </div>
             </div>
         )
     }

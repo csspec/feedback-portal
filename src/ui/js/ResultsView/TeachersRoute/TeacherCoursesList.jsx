@@ -4,6 +4,7 @@ import SlideInUp from '../../Transitions/SlideInUp';
 import { makeAjaxRequest } from '../../Ajax';
 import config from '../../config';
 import Button from '../../Button';
+import SideBar from '../../NavigationPane/SideBar';
 import Loading from '../../Loading';
 import NothingFound from '../../ErrorImages/NothingFound';
 
@@ -113,7 +114,11 @@ export default class TeacherCoursesList extends React.Component {
                     ? <CoursesListGroup key="courseList" teacherId={this.props.params.teacherId} list={this.state.coursesList} />
                     : loader;
         return (
-            <div>
+            <div className="row"  style={{margin: 0}}>
+                <div className="sidebar col-sm-2" style={{margin: 0}}>
+                    <SideBar />
+                </div>
+                <div className="rest col-sm-10" style={{margin: 0, padding: 0}}>
                 <nav className="navbar navbar-default" style={{
                     border: 0
                 }}>
@@ -147,6 +152,7 @@ export default class TeacherCoursesList extends React.Component {
                 <SlideInUp>
                     {view}
                 </SlideInUp>
+                </div>
             </div>
         )
     }

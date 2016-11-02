@@ -17,7 +17,7 @@ const loader = (
 			}}>
 		<Loading height={50} />
 	</div>
-)
+);
 
 export default class CourseListView extends React.Component {
 	constructor(props) {
@@ -25,7 +25,7 @@ export default class CourseListView extends React.Component {
 		this.state = {
 			courseList: [],
 			busy: true,
-		}
+		};
 	}
 
 	componentDidMount() {
@@ -42,14 +42,14 @@ export default class CourseListView extends React.Component {
 					item.instructor = {
 						id: course.TeacherId,
 						name: course.TeacherName
-					}
+					};
 					return item;
-				})
-				this.setState({ courseList: list, busy: false })
+				});
+				this.setState({ courseList: list, busy: false });
 				console.log(list);
 			},
 			error: console.log
-		})
+		});
 	}
 	
 	render() {
@@ -58,6 +58,6 @@ export default class CourseListView extends React.Component {
 			<SlideInUp>
 				{view}
 			</SlideInUp>
-		)
+		);
 	}
 }

@@ -6,6 +6,7 @@ import config from '../../config';
 import Button from '../../Button';
 import Loading from '../../Loading';
 import NothingFound from '../../ErrorImages/NothingFound';
+import SideBar from '../../NavigationPane/SideBar';
 
 const loader = (
     <div key="loader3" style={{
@@ -114,7 +115,11 @@ export default class CourseTeachersList extends React.Component {
                     ? <CoursesListGroup key="courseList" courseId={this.props.params.courseId} list={this.state.teacherList} />
                     : loader;
         return (
-            <div>
+            <div className="row"  style={{margin: 0}}>
+                <div className="sidebar col-sm-2" style={{margin: 0}}>
+                    <SideBar />
+                </div>
+                <div className="rest col-sm-10" style={{margin: 0, padding: 0}}>
                 <nav className="navbar navbar-default" style={{
                     border: 0
                 }}>
@@ -146,6 +151,7 @@ export default class CourseTeachersList extends React.Component {
                 <SlideInUp>
                     {view}
                 </SlideInUp>
+                </div>
             </div>
         )
     }

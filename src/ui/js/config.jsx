@@ -1,12 +1,12 @@
 import { readCookie } from './Utils/Cookie';
 const basePath = 'http://139.59.18.123';
-const baseAuth = 'http://139.59.36.12:8090'
+const baseAuth = 'http://139.59.36.12:8090';
 const basefeedApi = 'http://139.59.18.123:8090';
 const profileLink = '#';
 
 const config = {
 	authApi: {
-		redirectLink: 'http://192.168.8.100:3000/redirect',
+		redirectLink: 'http://localhost:3000/redirect',
 		authorizeLink: baseAuth + '/oauth/authorize'
 	},
 
@@ -34,7 +34,7 @@ const config = {
 
 	profileLink: profileLink,
 	logoutLink: ''
-}
+};
 
 module.exports = config;
 

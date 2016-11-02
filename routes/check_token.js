@@ -45,7 +45,7 @@ function handleCheckTokenRequest(req, res, next) {
     let options = {
         url: process.env.AUTH_SERVER_LINK + '/oauth/check_token',
         headers: {
-            'x-auth-token': 'client_id=' + process.env.FEEDBACK_CLIENT_ID 
+            'x-auth-token': 'client_id=' + process.env.FEEDBACK_CLIENT_ID
                             + '&client_secret=' + process.env.FEEDBACK_CLIENT_SECRET,
             'Authorization': 'Bearer ' + req.body.hash
         },

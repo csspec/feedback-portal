@@ -30,7 +30,7 @@ class App extends React.Component {
                     <Route path="/courses/:courseId/:teacherId" component={CourseFeedbackResult} />
                 </Router>
             </MuiThemeProvider>
-        )
+        );
     }
 }
 

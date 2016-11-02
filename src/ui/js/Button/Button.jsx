@@ -13,15 +13,12 @@ export default class Button extends React.Component {
 	}
 
 	handleMouseDown(event) {
-		this.ripple.downAction(event);
 	}
 
 	handleMouseUp(event) {
-		this.ripple.upAction(event);
 	}
 
 	componentDidUpdate() {
-		this.button.appendChild(this.ripple.$);		
 	}
 
 	render() {

@@ -11,7 +11,7 @@ router.get('/redirect', function(req, res, next) {
     res.render('redirect_handler', {
         title: 'Redirecting...'
     });
-})
+});
 
 router.get('/results', function(req, res, next) {
     if (req.userRole !== 'ADMIN') {
@@ -22,8 +22,8 @@ router.get('/results', function(req, res, next) {
     res.render('results', {
         userId: req.userId,
         title: 'Admin Console'
-    })
-})
+    });
+});
 
 router.get(['/list', '/form'], function(req, res, next) {
     if (req.userRole !== 'STUDENT') {
@@ -35,7 +35,12 @@ router.get(['/list', '/form'], function(req, res, next) {
     res.render('list', {
         userId: req.userId,
         title: 'Feedback form'
-    })
-})
+    });
+});
+
+router.get('/logout', function(req, res, next) {
+    res.cookie('FEEDBACK_CSSPEC', "");
+    res.render('index', { title: 'Feedback Home', userId: 'null' });
+});
 
 module.exports = router;

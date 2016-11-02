@@ -5,7 +5,7 @@ import { makeAjaxRequest } from '../../Ajax';
 import config from '../../config';
 import Loading from '../../Loading';
 import { readCookie } from '../../Utils/Cookie';
-import Button from '../../Button'
+import Button from '../../Button';
 
 // expected props:
 //    course
@@ -24,7 +24,7 @@ export default class CourseField extends React.Component {
 		this.state = {
 			filled: false,
 			busy: true
-		}
+		};
 	}
 	handleClick() {
 		if (this.state.filled)
@@ -42,14 +42,14 @@ export default class CourseField extends React.Component {
 			url: config.feedbackApi.statusLink + '/' + this.props.course.id + '/' + config.dummy.userId,
 			success: response => {
 				if (response.status) {
-					this.setState({ busy: false, filled: true })
+					this.setState({ busy: false, filled: true });
 				}
 				this.setState({busy: false});
 			},
 			error: error => {
 				this.setState({ filled: true });
 			}
-		})
+		});
 	}
 
 	render() {
@@ -80,6 +80,6 @@ export default class CourseField extends React.Component {
 						</div>
 					</div>
 			</Button>
-		)
+		);
 	}
 }
