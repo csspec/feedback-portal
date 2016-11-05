@@ -26,8 +26,8 @@ const loader = (
 class Course extends React.Component {
     render() {
         return (
-            <Button className="list-group-item"
-                    style={{outline: 0, border: 'none', padding: '1em'}}>
+            <div className="list-group-item btn btn-default"
+                    style={{outline: 0, border: 'none', textAlign: 'left', padding: 0}}>
                     <Link to={ "/courses/" + this.props.course.courseId } className="row">
                         <div className="col-xs-2 col-sm-2" style={{display: 'flex', alignItems: 'center'}}>
                             <span className="material-icons" style={{fontSize: '50px'}}>account_circle</span>
@@ -40,7 +40,7 @@ class Course extends React.Component {
                             { /* we have to somehow utilize this space */ }
                         </div>
                     </Link>
-            </Button>
+            </div>
         );
     }
 }
