@@ -71,7 +71,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   common.plugins.push(new webpack.DefinePlugin({
     'process.env': {
-      'REDIRECT_URL': JSON.stringify('http://139.59.36.12:3000/redirect')
+      'REDIRECT_URL': JSON.stringify('http://localhost:3000/redirect')
     }
   }));
 }
