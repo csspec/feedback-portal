@@ -12,9 +12,6 @@ import { makeAjaxRequest } from '../Ajax';
 
 injectTapEventPlugin();
 
-
-const authLink = config.authApi.authorizeLink + '?redirect_uri=' + config.authApi.redirectLink + '&client_id=feedback&response_type=token';
-console.log(authLink);
 const iconButtonElement = (
   <IconButton
     touch={true}
@@ -35,32 +32,33 @@ class AccountMenu extends React.Component {
             account: {},
             busy: true,
             notLoggedIn: false,
-        }
+        };
     }
 
     componentDidMount() {
         if (typeof config.dummy.userId === 'undefined'
             || config.dummy.userId == null
             || config.dummy.userId.length < 1) {
-            this.setState({notLoggedIn: true, busy: false});
+            this.setState((prevState, props) => ({notLoggedIn: true, busy: false}));
+            return;
         }
         makeAjaxRequest({
             url: config.identityApi.userLink + '/' + config.dummy.userId,
             success: (account) => {
                 this.props.onUserInfo(account);
-                this.setState({account: account, busy: false})
+                this.setState({account: account, busy: false});
             },
             error: (error) => {
                 console.log(error);
             }
-        })
+        });
     }
 
     render() {
         if (this.state.busy) {
             return (
                 <Loading height={20} />
-            )
+            );
         } else if (this.state.notLoggedIn) {
             return (
                 <MuiThemeProvider>
@@ -83,13 +81,13 @@ class AccountMenu extends React.Component {
                         </strong>
                     </MenuItem>
                     <MenuItem key="logout">
-                        <div onTouchTap={() => window.location = authLink}>
+                        <div onTouchTap={() => window.location = '/logout'}>
                             Logout
                         </div>
                     </MenuItem>
                 </IconMenu>
             </MuiThemeProvider>
-        )
+        );
     }
 }
 
@@ -111,7 +109,7 @@ class Header extends React.Component {
                     </div>
                 </div>
 			</nav>
-		)
+		);
 	}
 }
 

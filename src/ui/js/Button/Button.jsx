@@ -24,7 +24,7 @@ export default class Button extends React.Component {
 	render() {
 		return (
 			<button ref={comp => this.button = comp}
-				className={this.props.className + " paper-button primary"} {...this.props} onClick={this.props.onClick}
+				className={this.props.className + " btn btn-primary"} {...this.props} onClick={this.props.onClick}
 				onMouseDown={this.handleMouseDown.bind(this)}
 				onTouchStart={this.handleMouseDown.bind(this)}
 				onMouseUp={this.handleMouseUp.bind(this)}

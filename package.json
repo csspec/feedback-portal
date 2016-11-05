@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start-dev": "webpack --progress && node ./bin/www",
-    "watch": "webpack --watch --progress",
-    "build": "webpack --progress",
-    "build-production": "webpack -p --progress --define process.env.NODE_ENV='\"production\"'"
+    "start-dev": "node ./node_modules/.bin/webpack --progress && node ./bin/www",
+    "watch": "node ./node_modules/.bin/webpack --watch --progress",
+    "build": "node ./node_modules/.bin/webpack --progress",
+    "build-production": "node ./node_modules/.bin/webpack -p --progress --define process.env.NODE_ENV='\"production\"'"
   },
   "dependencies": {
     "autoprefixer": "^6.5.1",
