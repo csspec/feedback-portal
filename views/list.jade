@@ -1,9 +1,10 @@
 extends layout
 
 block content
-  div(id="react-mount-point")
-  script.
-    window.__CSSPEC__ = {
-      userId: "#{userId}"
-    }
-  script(src="/js/index.js")
+    div(id="react-mount-point")
+    script.
+        window.__CSSPEC__ = {
+            userId: "#{userId}"
+        }
+        
+    script(src="/js/index.js")
