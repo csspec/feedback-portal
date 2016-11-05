@@ -2,11 +2,12 @@ import { readCookie } from './Utils/Cookie';
 const basePath = 'http://139.59.18.123';
 const baseAuth = 'http://139.59.36.12:8090';
 const basefeedApi = 'http://139.59.18.123:8090';
+const baseAcademicApi = 'http://139.59.32.247:5000/academic';
 const profileLink = '#';
-
+console.log(process.env.REDIRECT_URL);
 const config = {
 	authApi: {
-		redirectLink: 'http://localhost:3000/redirect',
+		redirectLink: process.env.REDIRECT_URL ? process.env.REDIRECT_URL : 'http://localhost:3000/redirect',
 		authorizeLink: baseAuth + '/oauth/authorize'
 	},
 
@@ -23,10 +24,7 @@ const config = {
 		teachers: basePath + ':8080/identity/users/faculty'
 	},
 
-	academicApi: {
-		coursesOptedLink: basePath + ':8080/academic/courses/students',
-		course: basePath + ':8080/academic/courses'
-	},
+	academicApi: baseAcademicApi + '/courses',
 
 	dummy: {
 		userId: window.__CSSPEC__.userId

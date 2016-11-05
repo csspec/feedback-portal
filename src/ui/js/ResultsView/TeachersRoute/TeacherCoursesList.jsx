@@ -19,7 +19,7 @@ const loader = (
             }}>
         <Loading height={50} />
     </div>
-)
+);
 
 class ListItem extends React.Component {
     render() {
@@ -31,7 +31,7 @@ class ListItem extends React.Component {
                             <span className="material-icons" style={{fontSize: '50px'}}>library_books</span>
                         </div>
                         <div className="col-xs-6 col-sm-6">
-                            <strong style={{display: 'block'}}>{this.props.course.courseName}</strong>
+                            <strong style={{display: 'block'}}>{this.props.course.name}</strong>
                             <small style={{display: 'block', color: 'gray'}}>{this.props.course.courseId}</small>
                         </div>
                         <div className="col-xs-4 col-sm-4">
@@ -39,7 +39,7 @@ class ListItem extends React.Component {
                         </div>
                     </Link>
             </Button>
-        )
+        );
     }
 }
 
@@ -48,7 +48,7 @@ class CoursesListGroup extends React.Component {
         let listitems = this.props.list.map(course => {
             return (
                 <ListItem teacherId={this.props.teacherId} course={course} key={course.courseId} /> 
-            )
+            );
         });
 
         if (listitems.length < 1) {
@@ -68,7 +68,7 @@ class CoursesListGroup extends React.Component {
             }}>
                 {listitems}
             </div>
-        )
+        );
     }
 }
 
@@ -79,7 +79,7 @@ export default class TeacherCoursesList extends React.Component {
             coursesList: [],
             total: 2,
             progress: 0,
-        }
+        };
     }
 
     handleCourseFetch(course) {
@@ -89,10 +89,10 @@ export default class TeacherCoursesList extends React.Component {
     }
 
     handleCoursesFeedback(list) {
-        this.setState((prevState, props) => ({total: prevState.total + list.length, progress: prevState.progress + 1}))
+        this.setState((prevState, props) => ({total: prevState.total + list.length, progress: prevState.progress + 1}));
         list.map(feedback => {
             fbApi.getCourseByCourseId(feedback.courseId, this.handleCourseFetch.bind(this), console.log);
-        })
+        });
     }
 
     fetchTeacherFeedbacksList() {
@@ -154,7 +154,7 @@ export default class TeacherCoursesList extends React.Component {
                 </SlideInUp>
                 </div>
             </div>
-        )
+        );
     }
 }
 

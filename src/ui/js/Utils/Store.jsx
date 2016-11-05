@@ -106,7 +106,7 @@ class CacheStore {
                 callback(object);
             },
             error: error
-        })
+        });
     }
 
     getCourse(url, callback, error) {
@@ -130,7 +130,7 @@ class CacheStore {
     }
 
     getCourseByCourseId(courseId, callback, error) {
-        this.getCourse(config.academicApi.course + '/' + courseId, callback, error);
+        this.getCourse('/api/courses/' + courseId, callback, error);
     }
 
     getTeacherByTeacherId(teacherId, callback, error) {
@@ -142,8 +142,20 @@ class CacheStore {
     }
 
     getAllCourses(callback, error) {
-        this.getObject(config.academicApi.course, callback, error);
+        this.getObject('/api/courses', callback, error);
     }
+
+
+    getCoursesOptedByStudent(studentId, callback, error) {
+        makeAjaxRequest({
+            url: '/api/courses_opted',
+            success: callback,
+            error: error
+        });
+    }
+
+
+
 }
 
 export default function injectStore() {

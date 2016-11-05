@@ -24,36 +24,55 @@ export default class CourseListView extends React.Component {
 		super(props);
 		this.state = {
 			courseList: [],
-			busy: true,
+			progress: 0,
+			total: 1,
 		};
 	}
 
 	componentDidMount() {
-		makeAjaxRequest({
-			url: config.academicApi.coursesOptedLink + '/' + config.dummy.userId,
-			success: list => {
-				list = list.map(course => {
+		let courseList = [];
+		window.fbApi.getCoursesOptedByStudent(config.dummy.userId, list => {
+				courseList = list.map(course => {
 					let item = {};
 					item.course = {
-						id: course.CourseId,
-						name: course.CourseName
+						id: course.courseId,
+						name: course.name,
+						department: course.offeredBy,
+						credits: course.credits
 					};
-
-					item.instructor = {
-						id: course.TeacherId,
-						name: course.TeacherName
-					};
+					item.teacherId = course.teacherId;
 					return item;
 				});
-				this.setState({ courseList: list, busy: false });
+
+				this.setState((prevState, props) => ({
+					progress: prevState.progress + 1,
+					total: prevState.total + courseList.length,
+					courseList: courseList
+				}));
+
+				courseList.forEach((course) => {
+					console.log(course);
+					window.fbApi.getTeacherByTeacherId(course.teacherId, (teacher) => {
+						course.instructor = {
+							name: teacher.common.userName,
+							id: teacher.common.userId
+						};
+						this.setState((prevState, props) => ({
+							progress: prevState.progress + 1
+						}));
+
+					}, console.log);
+				
+				});
+				
 				console.log(list);
 			},
-			error: console.log
-		});
+			console.log
+		);
 	}
 	
 	render() {
-		let view = !this.state.busy ? <CourseList key="courseList" courseList={this.state.courseList} /> : loader;
+		let view = !(this.state.total - this.state.progress) ? <CourseList key="courseList" courseList={this.state.courseList} /> : loader;
 		return (
 			<SlideInUp>
 				{view}

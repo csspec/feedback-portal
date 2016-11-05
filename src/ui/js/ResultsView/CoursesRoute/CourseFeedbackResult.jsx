@@ -94,7 +94,7 @@ export default class TeacherFeedbackResult extends React.Component {
                         </div>
                         <div className="col-xs-5 col-sm-5 text-right">
                             <Link to={'/courses/' + this.props.params.courseId}>
-                                <h4>{this.state.course.courseName}</h4>
+                                <h4>{this.state.course.name}</h4>
                             </Link>
                         </div>
                         <div className="col-xs-5 col-sm-5">

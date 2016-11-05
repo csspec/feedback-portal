@@ -5,7 +5,9 @@ import CourseListView from './CourseListView';
 import Footer from './Footer';
 import QuestionList from './FeedbackView/QuestionList'
 import '../sass/common.sass';
+import injectStore from './Utils/Store';
 
+injectStore();
 
 const VIEW_STATE = {
 	FORM: 1,

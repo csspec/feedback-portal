@@ -52,13 +52,7 @@ var common = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
-    }),
-    // new webpack.optimize.UglifyJsPlugin(),
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     'NODE_ENV': JSON.stringify('production')
-    //   }
-    // })
+    })
   ],
   postcss: function() {
     return [autoprefixer({
@@ -66,5 +60,20 @@ var common = {
     })];
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  common.plugins.push(new webpack.optimize.UglifyJsPlugin());
+  common.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      'REDIRECT_URL': JSON.stringify('http://139.59.36.12:3000/redirect')
+    }
+  }));
+} else {
+  common.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      'REDIRECT_URL': JSON.stringify('http://139.59.36.12:3000/redirect')
+    }
+  }));
+}
 
 module.exports = common;

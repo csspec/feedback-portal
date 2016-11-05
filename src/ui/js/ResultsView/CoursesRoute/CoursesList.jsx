@@ -21,7 +21,7 @@ const loader = (
             }}>
         <Loading height={50} />
     </div>
-)
+);
 
 class Course extends React.Component {
     render() {
@@ -33,15 +33,15 @@ class Course extends React.Component {
                             <span className="material-icons" style={{fontSize: '50px'}}>account_circle</span>
                         </div>
                         <div className="col-xs-6 col-sm-6">
-                            <strong style={{display: 'block'}}>{this.props.course.courseName}</strong>
-                            <small style={{display: 'block', color: 'gray'}}>{this.props.course.departmentId}</small>
+                            <strong style={{display: 'block'}}>{this.props.course.name}</strong>
+                            <small style={{display: 'block', color: 'gray'}}>{this.props.course.offeredBy}</small>
                         </div>
                         <div className="col-xs-4 col-sm-4">
                             { /* we have to somehow utilize this space */ }
                         </div>
                     </Link>
             </Button>
-        )
+        );
     }
 }
 
@@ -50,7 +50,7 @@ class CoursesListGroup extends React.Component {
         let listitems = this.props.list.map(course => {
             return (
                 <Course course={course} key={course.courseId} /> 
-            )
+            );
         });
 
         if (listitems.length < 1) {
@@ -72,7 +72,7 @@ class CoursesListGroup extends React.Component {
             }}>
             {listitems}
             </div>
-        )
+        );
     }
 }
 
@@ -82,13 +82,13 @@ export default class CoursesList extends React.Component {
         this.state = {
             courseList: [],
             loading: true,
-        }
+        };
     }
 
     fetchCourses() {
         fbApi.getAllCourses(list => {
             this.setState((prevState, props) => ({courseList: list, loading: false}));
-        }, console.log)
+        }, console.log);
     }
 
     componentDidMount() {
