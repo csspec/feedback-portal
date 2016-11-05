@@ -7,17 +7,16 @@ var common = {
   cache: true,
   debug: true,
   entry: {
-    index: './src/main/web/js/index.jsx',
-    course: './src/main/web/js/course.jsx',
-    home: './src/main/web/js/home.jsx',
-    results: './src/main/web/js/results.jsx'
+    index: './src/ui/js/index.jsx',
+    redirect_handler: './src/ui/js/redirect_handler.jsx',
+    home: './src/ui/js/home.jsx',
+    results: './src/ui/js/results.jsx'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    publicPath: 'assets/',
-    path: './src/main/webapp/js/',
+    path: './public/build/',
     filename: '[name].js'
   },
   devServer: {
@@ -46,20 +45,14 @@ var common = {
       loader: "url-loader?limit=10000&mimetype=application/font-woff2&name=[path][name].[ext]"
     }, {
       test: /\.(eot|ttf|svg|gif|png)$/,
-      loader: "file-loader"
+      loader: "file-loader?name=assets/img-[hash].[ext]"
     }]
   },
   plugins: [
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
-    }),
-    // new webpack.optimize.UglifyJsPlugin(),
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     'NODE_ENV': JSON.stringify('production')
-    //   }
-    // })
+    })
   ],
   postcss: function() {
     return [autoprefixer({
@@ -67,5 +60,20 @@ var common = {
     })];
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  common.plugins.push(new webpack.optimize.UglifyJsPlugin());
+  common.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      'REDIRECT_URL': JSON.stringify('http://139.59.36.12:3000/redirect')
+    }
+  }));
+} else {
+  common.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      'REDIRECT_URL': JSON.stringify('http://localhost:3000/redirect')
+    }
+  }));
+}
 
 module.exports = common;

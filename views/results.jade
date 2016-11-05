@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    div(id="react-mount-point")
+    script(src='https://www.gstatic.com/charts/loader.js')
+    script.
+        window.__CSSPEC__ = {
+            userId: "#{userId}"
+        }
+    script(src="/js/results.js")
+
