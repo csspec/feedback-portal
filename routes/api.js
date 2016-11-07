@@ -3,10 +3,11 @@ const router = express.Router();
 const request = require('request');
 
 const baseAcademicApi = 'http://139.59.32.247:5000/academic';
+const baseIdentityApi = 'http://139.59.18.123:8080/identity';
 
 router.get('/courses_opted', (req, res, next) => {
     if (req.userRole !== 'STUDENT') {
-        res.status(401).send({error: 'Invalid request', reason: 'userId does not correspond to a student'});
+        res.status(400).send({error: 'Invalid request', reason: 'userId does not correspond to a student'});
         return;
     }
     request({
@@ -41,7 +42,7 @@ router.get('/courses', (req, res, next) => {
             const list = body.data.items;
             res.send(list);
         } else {
-            res.status(401).send({error: 'Bad request'});
+            res.status(400).send({error: 'Bad request'});
         }
     });
 });
@@ -66,7 +67,106 @@ router.get('/courses/:courseId', (req, res, next) => {
                 res.send(course);
             }
         } else {
-            res.status(401).send({error: 'Bad request'});
+            res.status(400).send({error: 'Bad request'});
+        }
+    });
+});
+
+router.get('/department/:departmentId/courses', (req, res, next) => {
+    const url = baseAcademicApi + '/courses?token=' + req.accessToken
+                + '&offeredBy=' + (req.params.departmentId);
+
+    request({
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + req.accessToken
+        },
+        json: true
+    }, (error, response, body) => {
+        console.log('Academic returned: ' + response.statusCode);
+        if (!error && response.statusCode == 200) {
+            const list = body.data.items;
+            res.send(list);
+        } else {
+            res.status(400).send({error: 'Bad request'});
+        }
+    });
+});
+
+function getStudent(sid, req, callback, errorCallback) {
+    const url = baseIdentityApi + '/users/student/' + sid;
+    console.log(sid);
+    request({
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + req.accessToken
+        },
+        json: true,
+    }, (error, response, body) => {
+        console.log(response.statusCode);
+        if (!error && response.statusCode == 200) {
+            callback(body);
+        } else {
+            errorCallback(error);
+        }
+    });
+}
+
+function sendList(list, req, res, callback) {
+    let counter = 0;
+    let error = false;
+    let ignore = false;
+    let result = [];
+
+    list.forEach(studentId => {
+        counter++;
+        if (studentId == '1') {
+            counter--;
+            return;
+        }
+        getStudent(studentId, req, student => {
+            result.push(student);
+            console.log(student.userName);
+            counter--;
+
+            if (ignore) {
+                return;
+            }
+
+            if (error) {
+                callback(error);
+                ignore = true;
+            }
+
+            if (counter === 0) {
+                res.send(result);
+            }
+        }, () => {
+            error = true;
+        });
+    });
+}
+
+router.get('/course/:courseId/students', (req, res, next) => {
+    const url = baseAcademicApi + '/students?token=' + req.accessToken
+                + '&courseId=' + req.params.courseId;
+
+    request({
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + req.accessToken
+        },
+        json: true
+    }, (error, response, body) => {
+        console.log('Academic returned: ' + response.statusCode);
+        if (!error && response.statusCode == 200) {
+            const list = body.data.studentIds;
+            sendList(list, req, res, error => {
+                if (error)
+                    res.status(424).send({ error: 'Failed dependency' });
+            });
+        } else {
+            res.status(400).send({error: 'Bad request'});
         }
     });
 });
