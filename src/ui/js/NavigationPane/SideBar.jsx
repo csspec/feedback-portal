@@ -28,6 +28,11 @@ export default class SideBar extends React.Component {
                 <NavigationOption for="/courses">
                     <span className="material-icons">books</span> <span> Courses</span>
                 </NavigationOption>
+                <NavigationOption for="/status">
+                    <span className="material-icons" style={{
+                        marginRight: '1em'
+                    }}>account_circle</span> <span> Students</span>
+                </NavigationOption>
                 <li className="separator" style={{height: 1, backgroundColor: 'lightgray'}}></li>
                 <NavigationOption for="/settings">
                     <span className="material-icons" style={{

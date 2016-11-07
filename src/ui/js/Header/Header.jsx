@@ -11,6 +11,7 @@ import Loading from '../Loading';
 import { makeAjaxRequest } from '../Ajax';
 
 injectTapEventPlugin();
+const authLink = config.authApi.authorizeLink + '?redirect_uri=' + config.authApi.redirectLink + '&client_id=feedback&response_type=token';
 
 const iconButtonElement = (
   <IconButton
@@ -38,6 +39,7 @@ class AccountMenu extends React.Component {
     componentDidMount() {
         if (typeof config.dummy.userId === 'undefined'
             || config.dummy.userId == null
+            || config.dummy.userId == 'null'
             || config.dummy.userId.length < 1) {
             this.setState((prevState, props) => ({notLoggedIn: true, busy: false}));
             return;

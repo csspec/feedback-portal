@@ -90,19 +90,31 @@ class CacheStore {
     }
 
     getObject(url, callback, error) {
-        let object = this._fbstore.getItem(url);
+        setTimeout(() => {
+            let object = this._fbstore.getItem(url);
 
-        if (object) {
-            callback(JSON.parse(object));
-            return;
-        }
+            if (object) {
+                callback(JSON.parse(object));
+                return;
+            }
 
+            makeAjaxRequest({
+                url: url,
+                success: object => {
+                    this._fbstore.setItem(url, JSON.stringify(object));
+                    this._fbstore.setTTL(url, 1000 * 3 * 60);
+                    this._fbstore.log(url);
+                    callback(object);
+                },
+                error: error
+            });
+        });
+    }
+
+    getObjectNoCaching(url, callback, error) {
         makeAjaxRequest({
             url: url,
             success: object => {
-                this._fbstore.setItem(url, JSON.stringify(object));
-                this._fbstore.setTTL(url, 1000 * 3 * 60);
-                this._fbstore.log(url);
                 callback(object);
             },
             error: error
@@ -154,8 +166,13 @@ class CacheStore {
         });
     }
 
+    getCoursesByDepartmentId(departmentId, callback, error) {
+        this.getObject('/api/department/' + departmentId + '/courses', callback, error);
+    }
 
-
+    getStudentsByCourseId(courseId, callback, error) {
+        this.getObjectNoCaching('/api/course/' + courseId + '/students', callback, error);
+    }
 }
 
 export default function injectStore() {
