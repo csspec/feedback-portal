@@ -1,6 +1,6 @@
 import { readCookie } from './Utils/Cookie';
 const basePath = 'http://139.59.18.123';
-const baseAuth = 'http://139.59.36.12:8090';
+const baseAuth = process.env.AUTH_URL;
 const basefeedApi = 'http://139.59.18.123:8090';
 const baseAcademicApi = 'http://139.59.32.247:5000/academic';
 const profileLink = '#';

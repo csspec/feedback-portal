@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const redirectUri = 'localhost:3000';
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Feedback Home', userId: 'null' });
@@ -40,7 +42,7 @@ router.get(['/list', '/form'], function(req, res, next) {
 
 router.get('/logout', function(req, res, next) {
     res.cookie('FEEDBACK_CSSPEC', "");
-    res.render('index', { title: 'Feedback Home', userId: 'null' });
+    res.redirect('http://localhost:8090/services/logout?redirect_uri=http://' + redirectUri);
 });
 
 module.exports = router;

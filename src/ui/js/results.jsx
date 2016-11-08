@@ -11,6 +11,7 @@ import injectStore from './Utils/Store';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TeacherCoursesList from './ResultsView/TeachersRoute/TeacherCoursesList';
+import StudentFilter from './ResultsView/StudentsStatusRoute/StudentFilter';
 import '../sass/common.sass';
 
 injectStore();
@@ -28,6 +29,7 @@ class App extends React.Component {
                     <Route path="/courses/:courseId" component={CourseTeachersList} />
                     <Route path="/teachers/:teacherId/:courseId" component={TeacherFeedbackResult} />
                     <Route path="/courses/:courseId/:teacherId" component={CourseFeedbackResult} />
+                    <Route path="/status" component={StudentFilter} />
                 </Router>
             </MuiThemeProvider>
         );
