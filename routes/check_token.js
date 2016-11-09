@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('request');
 const router = express.Router();
+const config = require('../src/ui/js/config');
 const jwt = require('jsonwebtoken');
 
 // get the secret used to sign the tokens from environment variable
@@ -43,14 +44,14 @@ function getRedirectUrl(user) {
 
 function handleCheckTokenRequest(req, res, next) {
     let options = {
-        url: process.env.AUTH_SERVER_LINK + '/oauth/check_token',
+        url: config.authApi.checkToken,
         headers: {
             'x-auth-token': 'client_id=' + process.env.FEEDBACK_CLIENT_ID
                             + '&client_secret=' + process.env.FEEDBACK_CLIENT_SECRET,
             'Authorization': 'Bearer ' + req.body.hash
         },
         json: true
-    }
+    };
 
     request.post(options, (error, response, body) => {
         if (error || response.statusCode != 200) {
@@ -62,11 +63,11 @@ function handleCheckTokenRequest(req, res, next) {
         let url = getRedirectUrl(body);
 
         console.log('Redirecting to: ' + url);
-        res.cookie('FEEDBACK_CSSPEC', issueJWToken(body, req.body.hash))
+        res.cookie('FEEDBACK_CSSPEC', issueJWToken(body, req.body.hash));
         res.send({
             'redirect_uri': url
-        })
-    })
+        });
+    });
 }
 
 router.post('/', handleCheckTokenRequest);

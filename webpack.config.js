@@ -52,6 +52,15 @@ var common = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'REDIRECT_URL': JSON.stringify(process.env.REDIRECT_URL),
+        'AUTH_URL': JSON.stringify(process.env.AUTH_URL),
+        'IDENTITY_URL': JSON.stringify(process.env.IDENTITY_URL),
+        'FEEDBACK_URL': JSON.stringify(process.env.FEEDBACK_URL),
+        'ACADEMIC_URL': JSON.stringify(process.env.ACADEMIC_URL)
+      }
     })
   ],
   postcss: function() {
@@ -63,19 +72,6 @@ var common = {
 
 if (process.env.NODE_ENV === 'production') {
   common.plugins.push(new webpack.optimize.UglifyJsPlugin());
-  common.plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      'REDIRECT_URL': JSON.stringify('http://139.59.36.12:3000/redirect'),
-      'AUTH_URL': JSON.stringify('http://139.59.36.12:8090')
-    }
-  }));
-} else {
-  common.plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      'REDIRECT_URL': JSON.stringify('http://localhost:3000/redirect'),
-      'AUTH_URL': JSON.stringify('http://localhost:8090')
-    }
-  }));
 }
 
 module.exports = common;

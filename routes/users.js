@@ -27,7 +27,7 @@ function userAware(req, res, next) {
         req.userRole = body.role;
         req.accessToken = body.access_token;
     } else {
-        console.log('[\u274C] User is not verified...')
+        console.log('[\u274C] User is not verified...');
     }
     next();
 }

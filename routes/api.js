@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-
-const baseAcademicApi = 'http://139.59.32.247:5000/academic';
-const baseIdentityApi = 'http://139.59.18.123:8080/identity';
+const config = require('../src/ui/js/config');
 
 router.get('/courses_opted', (req, res, next) => {
     if (req.userRole !== 'STUDENT') {
@@ -11,7 +9,7 @@ router.get('/courses_opted', (req, res, next) => {
         return;
     }
     request({
-        url: baseAcademicApi + '/courses?isDetailed=true&token=' + req.accessToken + '&studentId=' + req.userId,
+        url: config.academicApi + '/courses?isDetailed=true&token=' + req.accessToken + '&studentId=' + req.userId,
         headers: {
             'Authorization': 'Bearer ' + req.accessToken
         },
@@ -28,7 +26,7 @@ router.get('/courses_opted', (req, res, next) => {
 });
 
 router.get('/courses', (req, res, next) => {
-    const url = baseAcademicApi + '/courses?token=' + req.accessToken;
+    const url = config.academicApi + '/courses?token=' + req.accessToken;
 
     request({
         url: url,
@@ -48,7 +46,7 @@ router.get('/courses', (req, res, next) => {
 });
 
 router.get('/courses/:courseId', (req, res, next) => {
-    const url =  baseAcademicApi + '/courses?token=' + req.accessToken
+    const url =  config.academicApi + '/courses?token=' + req.accessToken
                     + (req.params.courseId ? ('&courseId=' + req.params.courseId) : '');
     request({
         url: url,
@@ -73,7 +71,7 @@ router.get('/courses/:courseId', (req, res, next) => {
 });
 
 router.get('/department/:departmentId/courses', (req, res, next) => {
-    const url = baseAcademicApi + '/courses?token=' + req.accessToken
+    const url = config.academicApi + '/courses?token=' + req.accessToken
                 + '&offeredBy=' + (req.params.departmentId);
 
     request({
@@ -94,7 +92,7 @@ router.get('/department/:departmentId/courses', (req, res, next) => {
 });
 
 function getStudent(sid, req, callback, errorCallback) {
-    const url = baseIdentityApi + '/users/student/' + sid;
+    const url = config.identityApi.studentLink + '/' + sid;
     console.log(sid);
     request({
         url: url,
@@ -148,7 +146,7 @@ function sendList(list, req, res, callback) {
 }
 
 router.get('/course/:courseId/students', (req, res, next) => {
-    const url = baseAcademicApi + '/students?token=' + req.accessToken
+    const url = config.academicApi + '/students?token=' + req.accessToken
                 + '&courseId=' + req.params.courseId;
 
     request({

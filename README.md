@@ -32,8 +32,13 @@ First you will need to install Node.JS. **Windows** users can download it from t
     ```bash
     $ export FEEDBACK_CLIENT_ID=feedback  # Registered client_id of feedback-portal on auth server
     $ export FEEDBACK_CLIENT_SECRET=secret  # Issued secret to the feedback-portal by auth server
-    $ export AUTH_SERVER_LINK=example.com   # Link to auth server
+    $ export AUTH_URL=example.com   # Link to auth server
     $ export CSSPEC_SECRET=secret    # Your secret required to sign cookies
+    $ export REDIRECT_URL=redirect_uri # Redirect URI registered on auth-server
+    $ export SERVER_URL=url # URL of this server
+    $ export IDENTITY_URL=url_of_identity # URL where identity service lives
+    $ export ACADEMIC_URL=url # URL where academic service lives
+    $ export FEEDBACK_URL=url # URL where feedback "service" lives
     ```
 
  + Compile the JSX files
