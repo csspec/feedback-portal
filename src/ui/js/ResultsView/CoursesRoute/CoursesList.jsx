@@ -33,7 +33,7 @@ class Course extends React.Component {
                             <span className="material-icons" style={{fontSize: '50px'}}>library_books</span>
                         </div>
                         <div className="col-xs-6 col-sm-6">
-                            <strong style={{display: 'block'}}>{this.props.course.id}</strong>
+                            <strong style={{display: 'block'}}>{this.props.course.courseId}</strong>
                             <small style={{display: 'block', color: 'gray'}}>{this.props.course.offeredBy}</small>
                             <small style={{display: 'block', color: 'darkgray'}}>{this.props.course.name}</small>
                         </div>
