@@ -100,7 +100,7 @@ function get(url, req, callback, errorCallback) {
         if (!error && response.statusCode == 200) {
             callback(body);
         } else {
-            errorCallback(error);
+            errorCallback(error, response);
         }
     });
 }
@@ -111,7 +111,7 @@ function getStudent(sid, req, callback, errorCallback) {
 }
 
 function getTeacher(tid, req, callback, errorCallback) {
-    get(config.identityApi.faculty + '/' + tid, req, callback, errorCallback);
+    get(config.identityApi.userLink + '/' + tid, req, callback, errorCallback);
 }
 
 function sendList(list, getter, req, res, callback) {
@@ -122,9 +122,12 @@ function sendList(list, getter, req, res, callback) {
 
     list.forEach(id => {
         counter++;
+        console.log(list);
         getter(id, req, user => {
             result.push(user);
-            console.log(user.common.userName);
+
+            if (user.common)
+                console.log(user.common.userName);
             counter--;
 
             if (ignore) {
@@ -132,6 +135,7 @@ function sendList(list, getter, req, res, callback) {
             }
 
             if (error) {
+                console.log("error");
                 callback(error);
                 ignore = true;
             }
@@ -139,7 +143,8 @@ function sendList(list, getter, req, res, callback) {
             if (counter === 0) {
                 res.send(result);
             }
-        }, () => {
+        }, (err, response) => {
+            console.log("error", err, response);
             error = true;
         });
     });
@@ -190,6 +195,26 @@ router.get('/course/:courseId/teachers', (req, res, next) => {
         }
     });
 });
+
+router.get('/teachers/:teacherId/courses', (req, res, next) => {
+    const url = config.academicApi + '/courses?token=' + req.accessToken
+                + '&teacherId=' + req.params.teacherId;
+
+    request({
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + req.accessToken
+        },
+        json: true
+    }, (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            const list = body.data.items;
+            res.send(list);
+        } else {
+            res.status(400).send({error: 'Bad request'});
+        }
+    });
+})
 
 
 module.exports = router;

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const config = require('../src/ui/js/config');
 
 const redirectUri = process.env.SERVER_URL + ':3000';
 
