@@ -196,7 +196,7 @@ router.get('/course/:courseId/teachers', (req, res, next) => {
     });
 });
 
-router.get('/teachers/:teacherId/courses', (req, res, next) => {
+function getCourses(tid, req, callback, error_callback) {
     const url = config.academicApi + '/courses?token=' + req.accessToken
                 + '&teacherId=' + req.params.teacherId;
 
@@ -208,13 +208,20 @@ router.get('/teachers/:teacherId/courses', (req, res, next) => {
         json: true
     }, (error, response, body) => {
         if (!error && response.statusCode == 200) {
-            const list = body.data.items;
-            res.send(list);
+            callback(body);
         } else {
-            res.status(400).send({error: 'Bad request'});
+            error_callback(error, response);
         }
-    });
-})
+    });    
+}
 
+router.get('/teachers/:teacherId/courses', (req, res, next) => {
+    getCourses(req.params.teacherId, req, body => {
+        const list = body.data.items;
+        res.send(list);
+    }, (error, response) => {
+        res.status(400).send({error: 'Bad request'});
+    });
+});
 
 module.exports = router;
