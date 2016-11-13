@@ -56,7 +56,7 @@ export default class CourseListView extends React.Component {
 					if (!course.teacherId) {
 						course.instructor = {
 							name: 'Not defined',
-							id: 'null'
+							id: null
 						};
 						this.setState((prevState, props) => ({progress: prevState.progress + 1}))
 						return;
