@@ -19,7 +19,7 @@ const loader = (
             }}>
         <Loading height={50} />
     </div>
-)
+);
 
 class ListItem extends React.Component {
     render() {
@@ -39,7 +39,7 @@ class ListItem extends React.Component {
                         </div>
                     </Link>
             </div>
-        )
+        );
     }
 }
 
@@ -48,7 +48,7 @@ class TeachersListGroup extends React.Component {
         let listitems = this.props.list.map(teacher => {
             return (
                 <ListItem teacher={teacher} key={teacher.userId} /> 
-            )
+            );
         });
 
         if (listitems.length < 1) {
@@ -70,7 +70,7 @@ class TeachersListGroup extends React.Component {
             }}>
             {listitems}
             </div>
-        )
+        );
     }
 }
 
@@ -80,13 +80,13 @@ export default class TeachersList extends React.Component {
         this.state = {
             teachersList: [],
             loading: true,
-        }
+        };
     }
 
     fetchTeachersList() {
         window.fbApi.getTeachersList(list => {
             this.setState({teachersList: list, loading: false});
-        })
+        });
     }
 
     componentDidMount() {
