@@ -101,10 +101,17 @@ export default class CoursesList extends React.Component {
         const toView = [];
         if (keyword !== '') {
             for (let course of this.state.courseList) {
-                if (course.name.toLowerCase().includes(keyword.toLowerCase())
-                    || course.courseId.toLowerCase().includes(keyword.toLowerCase())
-                    || course.offeredBy.toLowerCase().includes(keyword.toLowerCase())) {
-                    toView.push(course);
+                if (typeof course.name !== 'undefined')
+                    if (course.name.toLowerCase().includes(keyword.toLowerCase())
+                        || course.courseId.toLowerCase().includes(keyword.toLowerCase())
+                        || course.offeredBy.toLowerCase().includes(keyword.toLowerCase())) {
+                        toView.push(course);
+                    }
+                else {
+                    if (course.courseId.toLowerCase().includes(keyword.toLowerCase()
+                        || (typeof course.message !== 'undefined'
+                            && course.message.toLowerCase().includes(keyword.toLowerCase())))
+                        toView.push(course);
                 }
             }
 
