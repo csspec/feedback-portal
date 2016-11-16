@@ -83,12 +83,13 @@ export default class CoursesList extends React.Component {
         this.state = {
             courseList: [],
             loading: true,
+            toView: []
         };
     }
 
     fetchCourses() {
         fbApi.getAllCourses(list => {
-            this.setState((prevState, props) => ({courseList: list, loading: false}));
+            this.setState((prevState, props) => ({courseList: list, loading: false, toView: list}));
         }, console.log);
     }
 
@@ -97,11 +98,24 @@ export default class CoursesList extends React.Component {
     }
 
     handleSearch(keyword) {
-        console.log(keyword);
+        const toView = [];
+        if (keyword !== '') {
+            for (let course of this.state.courseList) {
+                if (course.name.toLowerCase().includes(keyword.toLowerCase())
+                    || course.courseId.toLowerCase().includes(keyword.toLowerCase())
+                    || course.offeredBy.toLowerCase().includes(keyword.toLowerCase())) {
+                    toView.push(course);
+                }
+            }
+
+            this.setState((prevState, props) => ({toView: toView}));
+        } else {
+            this.setState((prevState, props) => ({toView: prevState.courseList}));
+        }
     }
 
     render() {
-        let view = !this.state.loading ? <CoursesListGroup list={this.state.courseList} /> : loader;
+        let view = !this.state.loading ? <CoursesListGroup list={this.state.toView} /> : loader;
         return (
             <div className="row"  style={{margin: 0}}>
                 <div className="sidebar col-sm-2" style={{margin: 0}}>
