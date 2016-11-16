@@ -108,7 +108,7 @@ export default class CoursesList extends React.Component {
                         toView.push(course);
                     }
                 else {
-                    if (course.courseId.toLowerCase().includes(keyword.toLowerCase()
+                    if (course.courseId.toLowerCase().includes(keyword.toLowerCase())
                         || (typeof course.message !== 'undefined'
                             && course.message.toLowerCase().includes(keyword.toLowerCase())))
                         toView.push(course);
