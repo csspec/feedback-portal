@@ -15,7 +15,6 @@ router.get('/courses_opted', (req, res, next) => {
         },
         json: true
     }, (error, response, body) => {
-        console.log(response.statusCode);
         if (!error && response.statusCode == 200) {
             const list = body.data.items;
             res.send(list);
@@ -35,11 +34,11 @@ router.get('/courses', (req, res, next) => {
         },
         json: true
     }, (error, response, body) => {
-        console.log('Academic returned: ' + response.statusCode);
         if (!error && response.statusCode == 200) {
             const list = body.data.items;
             res.send(list);
         } else {
+            console.log("Academic returned " + error);
             res.status(400).send({error: 'Bad request'});
         }
     });
@@ -55,7 +54,6 @@ router.get('/courses/:courseId', (req, res, next) => {
         },
         json: true
     }, (error, response, body) => {
-        console.log('Academic returned: ' + response.statusCode);
         if (!error && response.statusCode == 200) {
             const list = body.data.items;
             const course = list.find(course => course.courseId == req.params.courseId);
@@ -65,6 +63,7 @@ router.get('/courses/:courseId', (req, res, next) => {
                 res.send(course);
             }
         } else {
+            console.log("Academic returned " + error);
             res.status(400).send({error: 'Bad request'});
         }
     });
@@ -81,7 +80,6 @@ router.get('/department/:departmentId/courses', (req, res, next) => {
         },
         json: true
     }, (error, response, body) => {
-        console.log('Academic returned: ' + response.statusCode);
         if (!error && response.statusCode == 200) {
             const list = body.data.items;
             res.send(list);
@@ -91,9 +89,7 @@ router.get('/department/:departmentId/courses', (req, res, next) => {
     });
 });
 
-function getStudent(sid, req, callback, errorCallback) {
-    const url = config.identityApi.studentLink + '/' + sid;
-    console.log(sid);
+function get(url, req, callback, errorCallback) {
     request({
         url: url,
         headers: {
@@ -101,30 +97,37 @@ function getStudent(sid, req, callback, errorCallback) {
         },
         json: true,
     }, (error, response, body) => {
-        console.log(response.statusCode);
         if (!error && response.statusCode == 200) {
             callback(body);
         } else {
-            errorCallback(error);
+            errorCallback(error, response);
         }
     });
 }
 
-function sendList(list, req, res, callback) {
+function getStudent(sid, req, callback, errorCallback) {
+    const url = config.identityApi.studentLink + '/' + sid;
+    get(url, req, callback, errorCallback);
+}
+
+function getTeacher(tid, req, callback, errorCallback) {
+    get(config.identityApi.userLink + '/' + tid, req, callback, errorCallback);
+}
+
+function sendList(list, getter, req, res, callback) {
     let counter = 0;
     let error = false;
     let ignore = false;
     let result = [];
 
-    list.forEach(studentId => {
+    list.forEach(id => {
         counter++;
-        if (studentId == '1') {
-            counter--;
-            return;
-        }
-        getStudent(studentId, req, student => {
-            result.push(student);
-            console.log(student.userName);
+        console.log(list);
+        getter(id, req, user => {
+            result.push(user);
+
+            if (user.common)
+                console.log(user.common.userName);
             counter--;
 
             if (ignore) {
@@ -132,6 +135,7 @@ function sendList(list, req, res, callback) {
             }
 
             if (error) {
+                console.log("error");
                 callback(error);
                 ignore = true;
             }
@@ -139,7 +143,8 @@ function sendList(list, req, res, callback) {
             if (counter === 0) {
                 res.send(result);
             }
-        }, () => {
+        }, (err, response) => {
+            console.log("error", err, response);
             error = true;
         });
     });
@@ -156,16 +161,66 @@ router.get('/course/:courseId/students', (req, res, next) => {
         },
         json: true
     }, (error, response, body) => {
-        console.log('Academic returned: ' + response.statusCode);
         if (!error && response.statusCode == 200) {
             const list = body.data.studentIds;
-            sendList(list, req, res, error => {
+            sendList(list, getStudent, req, res, error => {
                 if (error)
                     res.status(424).send({ error: 'Failed dependency' });
             });
         } else {
             res.status(400).send({error: 'Bad request'});
         }
+    });
+});
+
+router.get('/course/:courseId/teachers', (req, res, next) => {
+    const url = config.academicApi + '/teachers?token=' + req.accessToken
+                + '&courseId=' + req.params.courseId;
+
+    request({
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + req.accessToken
+        },
+        json: true
+    }, (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            const list = body.data.teacherIds;
+            sendList(list, getTeacher, req, res, error => {
+                if (error)
+                    res.status(424).send({ error: 'Failed dependency' });
+            });
+        } else {
+            res.status(400).send({error: 'Bad request'});
+        }
+    });
+});
+
+function getCourses(tid, req, callback, error_callback) {
+    const url = config.academicApi + '/courses?token=' + req.accessToken
+                + '&teacherId=' + req.params.teacherId;
+
+    request({
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + req.accessToken
+        },
+        json: true
+    }, (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            callback(body);
+        } else {
+            error_callback(error, response);
+        }
+    });    
+}
+
+router.get('/teachers/:teacherId/courses', (req, res, next) => {
+    getCourses(req.params.teacherId, req, body => {
+        const list = body.data.items;
+        res.send(list);
+    }, (error, response) => {
+        res.status(400).send({error: 'Bad request'});
     });
 });
 

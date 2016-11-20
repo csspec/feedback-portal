@@ -40,7 +40,7 @@ export default class CourseListView extends React.Component {
 						department: course.offeredBy,
 						credits: course.credits
 					};
-					item.teacherId = course.teacherId;
+					item.teacherId = typeof course.teacherId === 'undefined' ? false : course.teacherId;
 					return item;
 				});
 
@@ -52,6 +52,15 @@ export default class CourseListView extends React.Component {
 
 				courseList.forEach((course) => {
 					console.log(course);
+
+					if (!course.teacherId) {
+						course.instructor = {
+							name: 'Not defined',
+							id: null
+						};
+						this.setState((prevState, props) => ({progress: prevState.progress + 1}))
+						return;
+					}
 					window.fbApi.getTeacherByTeacherId(course.teacherId, (teacher) => {
 						course.instructor = {
 							name: teacher.common.userName,

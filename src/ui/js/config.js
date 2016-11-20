@@ -26,7 +26,7 @@ var config = {
 		teachers: basePath + '/identity/users/faculty'
 	},
 
-	academicApi: baseAcademicApi + '/courses',
+	academicApi: baseAcademicApi + '/academic',
 
 	dummy: {
 		userId: typeof window !== 'undefined' ? window.__CSSPEC__.userId : ''

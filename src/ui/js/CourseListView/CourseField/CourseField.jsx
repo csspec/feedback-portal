@@ -63,11 +63,11 @@ export default class CourseField extends React.Component {
 					style={{outline: 0, border: 'none', padding: '1em'}}>
 					<div className="row">
 						<div className="col-xs-2 col-sm-2" style={{display: 'flex', alignItems: 'center'}}>
-							<span className="material-icons" style={{fontSize: '50px'}}>account_circle</span>
+							<span className="material-icons" style={{fontSize: '50px'}}>library_books</span>
 						</div>
 						<div className="col-xs-6 col-sm-6">
-							<strong style={{display: 'block'}}>{instructor.name}</strong>
-							<small style={{display: 'block', color: 'gray'}}>{course_name}</small>
+							<strong style={{display: 'block'}}>{course_id + ": " + course_name}</strong>
+							<small style={{display: 'block', color: 'gray'}}>{instructor.name}</small>
 						</div>
 						<div className="col-xs-4 col-sm-4">
 						{

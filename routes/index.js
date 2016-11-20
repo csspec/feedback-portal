@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const config = require('../src/ui/js/config');
+const ServerError = require('./helpers/ServerError');
 
 const redirectUri = process.env.SERVER_URL + ':3000';
 
@@ -18,7 +20,7 @@ router.get('/redirect', function(req, res, next) {
 router.get('/results', function(req, res, next) {
     if (req.userRole !== 'ADMIN') {
         console.log("User was not admin");
-        res.status(403);
+        res.status(403).render('error', new ServerError(403, 'User was not admin', 'Please contact your admin.', ''));
         return;
     }
     res.render('results', {
@@ -30,7 +32,11 @@ router.get('/results', function(req, res, next) {
 router.get(['/list', '/form'], function(req, res, next) {
     if (req.userRole !== 'STUDENT') {
         console.log("User was not student");
-        res.status(403);
+        res.status(403).send({
+            error: 'You are not permitted to view this page',
+            how: 'Please login to continue',
+            link: 'http://' + process.env.SERVER_URL + ':3000/'
+        });
         return;
     }
 

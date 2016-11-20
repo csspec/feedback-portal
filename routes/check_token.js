@@ -55,7 +55,7 @@ function handleCheckTokenRequest(req, res, next) {
 
     request.post(options, (error, response, body) => {
         if (error || response.statusCode != 200) {
-            console.log("Error " + response.statusCode);
+            console.log("Error " + error);
             res.status(403).send({ error: 'Bad request'});
             return;
         }

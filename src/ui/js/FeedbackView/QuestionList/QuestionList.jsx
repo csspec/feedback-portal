@@ -16,8 +16,7 @@ class QuestionListHeading extends React.Component {
                             {this.props.course.id} ({this.props.course.name})
                         </div>
                         <div className="col-xs-6 text-right">
-                            <strong> Instructor: </strong>
-                            Prof. {this.props.instructor.name}
+                            {this.props.instructor.id == null ? '' : <div><strong> Instructor: </strong> {this.props.instructor.name}</div> }
                         </div>
                     </div>
                 </div>
@@ -35,7 +34,7 @@ export default class QuestionList extends React.Component {
             submitting: false,
             loading: true,
             handleValidation: false,
-        }
+        };
     }
 
     registerChange(response) {
@@ -48,7 +47,7 @@ export default class QuestionList extends React.Component {
                 return Object.assign({}, question, { filled: true, validate: true });
             }
             return question;
-        })
+        });
         this.setState({ responses: responses, questionList: questions });
     }
 
@@ -109,12 +108,14 @@ export default class QuestionList extends React.Component {
             type: 'GET',
             success: template => {
                 console.log(template);
+                const questions = template.questionList.map(question => {
+                    question = Object.assign({}, question, { validate: true, filled: false });
+                    console.log(question);
+                    return question;
+                });
+
                 this.setState({
-                    questionList: template.questionList.map(question => {
-                        question = Object.assign({}, question, { validate: true, filled: false })
-                        console.log(question);
-                        return question;
-                    }),
+                    questionList: this.props.instructor.id == null ? questions.slice(0, 4) : questions,
                     loading: false 
                 });
             },
@@ -122,7 +123,7 @@ export default class QuestionList extends React.Component {
                 console.log(message);
                 this.setState({
                     loading: false
-                })
+                });
             }
         });
     }

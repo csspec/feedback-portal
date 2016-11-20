@@ -19,7 +19,7 @@ const loader = (
             }}>
         <Loading height={50} />
     </div>
-)
+);
 
 class ListItem extends React.Component {
     render() {
@@ -39,7 +39,7 @@ class ListItem extends React.Component {
                         </div>
                     </Link>
             </div>
-        )
+        );
     }
 }
 
@@ -48,7 +48,7 @@ class CoursesListGroup extends React.Component {
         let listitems = this.props.list.map(teacher => {
             return (
                 <ListItem courseId={this.props.courseId} teacher={teacher} key={teacher.common.userId} /> 
-            )
+            );
         });
 
         if (listitems.length < 1) {
@@ -68,7 +68,7 @@ class CoursesListGroup extends React.Component {
             }}>
                 {listitems}
             </div>
-        )
+        );
     }
 }
 
@@ -79,21 +79,21 @@ export default class CourseTeachersList extends React.Component {
             teacherList: [],
             total: 2,
             progress: 0,
-        }
+        };
     }
 
     handleTeacher(teacher) {
-        let newlist = this.state.teacherList;
+        const newlist = this.state.teacherList;
         console.log(teacher);
         newlist.push(teacher);
         this.setState((prevState, prop) => ({teacherList: newlist, progress: prevState.progress + 1 }));
     }
 
     handleCoursesFeedback(list) {
-        this.setState((prevState, props) => ({total: prevState.total + list.length, progress: prevState.progress + 1}))
-        list.map(feedback => {
+        this.setState((prevState, props) => ({total: prevState.total + list.length, progress: prevState.progress + 1}));
+        list.forEach(feedback => {
             fbApi.getTeacherByTeacherId(feedback.teacherId, this.handleTeacher.bind(this), console.log);
-        })
+        });
     }
 
     fetchCourseFeedbackList() {
@@ -153,7 +153,7 @@ export default class CourseTeachersList extends React.Component {
                 </SlideInUp>
                 </div>
             </div>
-        )
+        );
     }
 }
 

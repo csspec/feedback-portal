@@ -30,11 +30,12 @@ class Course extends React.Component {
                     style={{outline: 0, border: 'none', textAlign: 'left', padding: 0}}>
                     <Link to={ "/courses/" + this.props.course.courseId } className="row">
                         <div className="col-xs-2 col-sm-2" style={{display: 'flex', alignItems: 'center'}}>
-                            <span className="material-icons" style={{fontSize: '50px'}}>account_circle</span>
+                            <span className="material-icons" style={{fontSize: '50px'}}>library_books</span>
                         </div>
                         <div className="col-xs-6 col-sm-6">
-                            <strong style={{display: 'block'}}>{this.props.course.name}</strong>
+                            <strong style={{display: 'block'}}>{this.props.course.courseId}</strong>
                             <small style={{display: 'block', color: 'gray'}}>{this.props.course.offeredBy}</small>
+                            <small style={{display: 'block', color: 'darkgray'}}>{this.props.course.name}</small>
                         </div>
                         <div className="col-xs-4 col-sm-4">
                             { /* we have to somehow utilize this space */ }
@@ -82,12 +83,13 @@ export default class CoursesList extends React.Component {
         this.state = {
             courseList: [],
             loading: true,
+            toView: []
         };
     }
 
     fetchCourses() {
         fbApi.getAllCourses(list => {
-            this.setState((prevState, props) => ({courseList: list, loading: false}));
+            this.setState((prevState, props) => ({courseList: list, loading: false, toView: list}));
         }, console.log);
     }
 
@@ -96,11 +98,31 @@ export default class CoursesList extends React.Component {
     }
 
     handleSearch(keyword) {
-        console.log(keyword);
+        const toView = [];
+        if (keyword !== '') {
+            for (let course of this.state.courseList) {
+                if (typeof course.name !== 'undefined')
+                    if (course.name.toLowerCase().includes(keyword.toLowerCase())
+                        || course.courseId.toLowerCase().includes(keyword.toLowerCase())
+                        || course.offeredBy.toLowerCase().includes(keyword.toLowerCase())) {
+                        toView.push(course);
+                    }
+                else {
+                    if (course.courseId.toLowerCase().includes(keyword.toLowerCase())
+                        || (typeof course.message !== 'undefined'
+                            && course.message.toLowerCase().includes(keyword.toLowerCase())))
+                        toView.push(course);
+                }
+            }
+
+            this.setState((prevState, props) => ({toView: toView}));
+        } else {
+            this.setState((prevState, props) => ({toView: prevState.courseList}));
+        }
     }
 
     render() {
-        let view = !this.state.loading ? <CoursesListGroup list={this.state.courseList} /> : loader;
+        let view = !this.state.loading ? <CoursesListGroup list={this.state.toView} /> : loader;
         return (
             <div className="row"  style={{margin: 0}}>
                 <div className="sidebar col-sm-2" style={{margin: 0}}>
