@@ -61,7 +61,7 @@ class CourseFilter extends React.Component {
             if (key === 0)
                 return item;
             return (
-                <MenuItem value={key} key={key} primaryText={item.name} />
+                <MenuItem value={item.courseId} key={key} primaryText={item.name} />
             );
         });
 
@@ -215,13 +215,20 @@ class StudentList extends React.Component {
         if (!this.state.fetched) {
             return loader;
         }
-        const items = this.state.items.map((student, key) => {
+
+        const sortedList = this.state.items.sort((left, right) => {
+            if (left.common.userName < right.common.userName) {
+                return -1;
+            } else if (left.common.userName > right.common.userName) {
+                return 1;
+            } else return 0;
+        });
+        window.list = sortedList;
+        const items = sortedList.map((student, key) => {
+            console.log(student);
             return (
                 <div className="list-group-item" key={key}>
                     <div className="row">
-                        <div className="col-xs-3 col-sm-3">
-                            {student.specific.studentId}
-                        </div>
                         <div className='col-xs-9 col-sm-9'>
                             {student.common.userName}
                         </div>
@@ -281,3 +288,5 @@ export default class StudentFilter extends React.Component {
         );
     }
 }
+
+export { StudentList };
