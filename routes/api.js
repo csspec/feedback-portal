@@ -120,6 +120,10 @@ function sendList(list, getter, req, res, callback) {
     let ignore = false;
     let result = [];
 
+    if (list.length === 0) {
+        res.status(200).send([]);
+        return;     
+    }
     list.forEach(id => {
         counter++;
         console.log(list);
@@ -150,10 +154,52 @@ function sendList(list, getter, req, res, callback) {
     });
 }
 
+function getStatus(sid, req, callback, error) {
+    get(config.feedbackApi.statusLink + '/' + req.params.courseId + '/' + sid, req, callback, error);
+}
+
+function getStatusForStudents(list, req, res, callback, errorCallback) {
+    let counter = 0;
+    let error = false;
+    let ignore = false;
+    let result = [];
+
+    if (list.length === 0) {
+        res.status(200).send([]);
+        return;     
+    }
+
+    list.forEach(id => {
+        counter++;
+        console.log(list);
+        getStatus(id, req, status => {
+            counter--;
+
+            if (!status.status)
+                result.push(id);
+            if (ignore) {
+                return;
+            }
+
+            if (error) {
+                console.log("error");
+                errorCallback(error);
+                ignore = true;
+            }
+
+            if (counter === 0) {
+                callback(result);
+            }
+        }, (err, response) => {
+            console.log("error", err, response);
+            error = true;
+        });
+    });
+}
+
 router.get('/course/:courseId/students', (req, res, next) => {
     const url = config.academicApi + '/students?token=' + req.accessToken
                 + '&courseId=' + req.params.courseId;
-
     request({
         url: url,
         headers: {
@@ -163,10 +209,15 @@ router.get('/course/:courseId/students', (req, res, next) => {
     }, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             const list = body.data.studentIds;
-            sendList(list, getStudent, req, res, error => {
-                if (error)
-                    res.status(424).send({ error: 'Failed dependency' });
-            });
+
+            getStatusForStudents(list, req, res, newlist =>
+                sendList(newlist, getStudent, req, res, error => {
+                    if (error)
+                        res.status(424).send({ error: 'Failed dependency' });
+                }), error => {
+                    if (error)
+                        res.status(424).send({ error: 'Failed dependency' });
+                });
         } else {
             res.status(400).send({error: 'Bad request'});
         }
