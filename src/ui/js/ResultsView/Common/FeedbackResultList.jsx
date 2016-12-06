@@ -44,6 +44,14 @@ class SingleQuestionResponses extends Component {
   }
 */
 
+const realResponse = {
+    A: 'Strongly Agree',
+    B: 'Agree',
+    C: 'Neutral',
+    D: 'Disagree',
+    E: 'Strongly Disagree'
+};
+
 // stateless component
 export default class FeedbackResultList extends React.Component {
     constructor(props) {
@@ -59,12 +67,20 @@ export default class FeedbackResultList extends React.Component {
     renderDetailsIntoArray(template, responses) {
         return responses.map(response => {
             const question = this.findQuestion(template, response.questionId);
+            const details = {};
+            details[realResponse['A']] = response.details.A;
+            details[realResponse['B']] = response.details.B;
+            details[realResponse['C']] = response.details.C;
+            details[realResponse['D']] = response.details.D;
+            details[realResponse['E']] = response.details.E;
+            
+            response.details = details;
             return {
                 question: question,
                 response: response,
                 id: question.questionId,
-            }
-        })
+            };
+        });
     }
 
     render() {
@@ -77,7 +93,7 @@ export default class FeedbackResultList extends React.Component {
         let listitems = details.map(question => {
             return (
                 <SingleQuestionResponses key={question.id} question={question.question} response={question.response} id={question.id} />
-            )
+            );
         });
 
         if (listitems.length < 1) {
