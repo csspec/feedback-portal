@@ -78,7 +78,9 @@ class CoursesListGroup extends React.Component {
                     display: 'block',
                     margin: 'auto',
                 }}>
-                    <small style={{padding: '8px'}}>Students who have not yet filled feedback form in this course</small>
+                    <small style={{padding: '8px'}}>
+                        <strong>Students who have not yet filled feedback form in this course</strong>
+                    </small>
                     <StudentList courseId={this.props.courseId} />
                 </div>
             </div>
