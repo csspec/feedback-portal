@@ -7,6 +7,7 @@ import Button from '../../Button';
 import Loading from '../../Loading';
 import NothingFound from '../../ErrorImages/NothingFound';
 import SideBar from '../../NavigationPane/SideBar';
+import { StudentList } from '../StudentsStatusRoute/StudentFilter';
 
 const loader = (
     <div key="loader3" style={{
@@ -59,14 +60,29 @@ class CoursesListGroup extends React.Component {
             );
         }
         return (
-            <div className="list-group" style={{
-                borderRadius: '2px',
-                border: (!listitems.length ? 'none': '1px solid lightgray'),
-                maxWidth: '768px',
-                display: 'block',
-                margin: 'auto'
-            }}>
-                {listitems}
+            <div>
+                <div className="list-group" style={{
+                    borderRadius: '2px',
+                    border: (!listitems.length ? 'none': '1px solid lightgray'),
+                    maxWidth: '768px',
+                    display: 'block',
+                    margin: 'auto'
+                }}>
+                    {listitems}
+                </div>
+                <br />
+                <div style={{
+                    borderRadius: '2px',
+                    border: '1px solid lightgray',
+                    maxWidth: '768px',
+                    display: 'block',
+                    margin: 'auto',
+                }}>
+                    <small style={{padding: '8px'}}>
+                        <strong>Students who have not yet filled feedback form in this course</strong>
+                    </small>
+                    <StudentList courseId={this.props.courseId} />
+                </div>
             </div>
         );
     }
